@@ -1,13 +1,14 @@
 package com.codecool.shop.config;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
+import jakarta.servlet.ServletContextEvent;
+import jakarta.servlet.ServletContextListener;
+import jakarta.servlet.annotation.WebListener;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
+import org.thymeleaf.templateresolver.WebApplicationTemplateResolver;
+import org.thymeleaf.web.IWebApplication;
+import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 /**
  * Thymeleaf configuration.
@@ -17,7 +18,9 @@ public class ThymeleafConfig implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        TemplateEngine engine = templateEngine(sce.getServletContext());
+        JakartaServletWebApplication application = JakartaServletWebApplication.buildApplication(sce.getServletContext());
+        sce.getServletContext().setAttribute("web_app", application);
+        TemplateEngine engine = templateEngine(application);
         TemplateEngineUtil.storeTemplateEngine(sce.getServletContext(), engine);
     }
 
@@ -25,14 +28,14 @@ public class ThymeleafConfig implements ServletContextListener {
     public void contextDestroyed(ServletContextEvent sce) {
     }
 
-    private TemplateEngine templateEngine(ServletContext servletContext) {
+    private TemplateEngine templateEngine(IWebApplication servletContext){
         TemplateEngine engine = new TemplateEngine();
         engine.setTemplateResolver(templateResolver(servletContext));
         return engine;
     }
 
-    private ITemplateResolver templateResolver(ServletContext servletContext) {
-        ServletContextTemplateResolver resolver = new ServletContextTemplateResolver(servletContext);
+    private ITemplateResolver templateResolver(IWebApplication application){
+        WebApplicationTemplateResolver resolver = new WebApplicationTemplateResolver(application);
         resolver.setPrefix("/templates/");
         resolver.setTemplateMode(TemplateMode.HTML);
         return resolver;
