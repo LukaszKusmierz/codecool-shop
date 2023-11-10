@@ -20,12 +20,15 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
     integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 
+    <script th:src="${ctxPath} + '/static/javascript/main.js'" defer></script>
+
     <!-- Latest compiled and minified CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <!-- End of Bootstrap components -->
 
     <link rel="stylesheet" type="text/css" href="/static/css/custom.css" />
+
 </head>
 
 <body>
@@ -34,8 +37,31 @@
     <h1>Codecool Shop</h1>
 </div>
 
+
+<nav>
+    <button class="buttonCategory" th:text="Category">Category</button>
+</nav>
+
+
+<div class ="categoryRadio">
+    <div>
+        <input type="radio" id="tablet" name="category" data-category-id="1" th:value="tablet" checked/>
+        <label for="tablet">Tablet</label>
+    </div>
+    <div>
+        <input type="radio" id="earphones" name="category" data-category-id="2" th:value="earphones"/>
+        <label for="earphones">Earphones</label>
+    </div>
+    <div>
+        <input type="radio" id="laptop" name="category" data-category-id="3" th:value="laptop"/>
+        <label for="laptop">Laptop</label>
+    </div>
+</div>
+
+
+
 <div class="container">
-    <div class="card">
+    <div id ="categoryName" class="card">
         <strong th:text="${category.name}">Category Title</strong>
     </div>
 
