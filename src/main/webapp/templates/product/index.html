@@ -38,26 +38,14 @@
 </div>
 
 
-<nav>
-    <button class="buttonCategory" th:text="Category">Category</button>
-</nav>
-
-
-<div class ="categoryRadio">
-    <div>
-        <input type="radio" id="tablet" name="category" data-category-id="1" th:value="tablet" checked/>
-        <label for="tablet">Tablet</label>
-    </div>
-    <div>
-        <input type="radio" id="earphones" name="category" data-category-id="2" th:value="earphones"/>
-        <label for="earphones">Earphones</label>
-    </div>
-    <div>
-        <input type="radio" id="laptop" name="category" data-category-id="3" th:value="laptop"/>
-        <label for="laptop">Laptop</label>
-    </div>
+<div>
+    <label for="category">Filer by Category:   </label>
+    <select name="categoryProducts" id="category">
+        <option id="tablet" data-category-id="1">Tablet</option>
+        <option id="earphones" data-category-id="2"  >Earphones</option>
+        <option id="laptop" data-category-id="3" >Laptop</option>
+    </select>
 </div>
-
 
 
 <div class="container">

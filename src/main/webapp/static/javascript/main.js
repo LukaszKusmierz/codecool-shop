@@ -1,41 +1,13 @@
-const radioCategory = document.querySelector('.categoryRadio');
-const buttonCategory =  document.querySelector('.buttonCategory');
-const radioTablet = document.querySelector('#tablet');
-const radioEarphones = document.querySelector('#earphones');
-const radioLaptop = document.querySelector('#laptop')
-radioCategory.style.display = "none";
+const selectElement = document.getElementById('category');
+selectElement.addEventListener("change",optionCategory);
 
-buttonCategory.addEventListener("click", showCategory);
-radioCategory.addEventListener("click", hideCategory);
-
-radioTablet.addEventListener("click",  optionCategory);
-radioEarphones.addEventListener("click",  optionCategory);
-radioLaptop.addEventListener("click",  optionCategory)
-
-
-function showCategory(event){
-    const element = event.target;
-    if(element) {
-        radioCategory.style.display = "block";
-        console.log("showCategory")
-    }
-}
-
-function hideCategory(event) {
-    const element = event.target;
-    if(element) {
-        radioCategory.style.display = "none";
-        console.log("hideCategory")
-    }
-}
-
-async function fetchCategory(route) {
+    function fetchCategory(route) {
     try {
         console.log("try fetch" + route)
         const toFetch =`http://localhost:8080/products/get${route}`
         console.log("Fetching from " + toFetch)
 
-        await fetch(toFetch, {
+        fetch(toFetch, {
             headers: {
                 'Accept': 'application/json'
             }
@@ -51,30 +23,30 @@ async function fetchCategory(route) {
 }
 
 function optionCategory(event) {
-    const element = event.target
-    const categoryId = element.dataset.categoryId
-    event.preventDefault();
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
 
-    if (categoryId) {
-        fetchCategory(`?categoryId=${categoryId}`)
-    }
+        const categoryId = selectedOption.getAttribute('data-category-id');
+        event.preventDefault();
+        if (categoryId) {
+            fetchCategory(`?categoryId=${categoryId}`)
+        }
 }
 
 function renderCategory(products) {
-    const productContainer = document.getElementById('products');
+    const container = document.getElementById('container');
     const categoryNameContainer = document.getElementById('categoryName');
-
-    if (categoryNameContainer){
-
-    }
+    const productContainer = document.getElementById('products');
 
     categoryNameContainer.innerHTML='';
-
+    const cardName = document.createElement('div');
+    cardName.classList.add('card');
+    cardName.innerHTML = `
+             <strong> ${selectElement.options[selectElement.selectedIndex].innerHTML}</strong>
+      `
     productContainer.innerHTML = '';
     products.forEach((prod) => {
         const card = document.createElement('div');
         card.classList.add('col', 'col-sm-12', 'col-md-6', 'col-lg-4');
-
         card.innerHTML = `
             
              <div id="products" class="row">
@@ -85,7 +57,7 @@ function renderCategory(products) {
                 </div>
                 <div class="card-body">
                     <div class="card-text">
-                        <p class="lead">${prod.id}</p>
+                        <p class="lead">${prod.defaultPrice}  ${prod.defaultCurrency}</p>
                     </div>
                     <div class="card-text">
                         <a class="btn btn-success" href="#">Add to cart</a>
@@ -93,8 +65,10 @@ function renderCategory(products) {
                 </div>
             </div>
         `;
-        productContainer.appendChild(card);
-
+        categoryNameContainer.append(cardName)
+        productContainer.append(card);
     });
+    container.append(categoryNameContainer);
+    container.append(productContainer);
 }
 

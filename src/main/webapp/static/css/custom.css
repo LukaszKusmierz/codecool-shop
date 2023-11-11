@@ -61,36 +61,19 @@
     margin: 0 0 11px;
 }
 
-nav{
-    height: 40px;
-    background-color: #bab8b8;
-    text-align: center;
 
-}
-
-.buttonCategory{
-    background-color: transparent;
-    text-align: center;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    border:none;
-
-}
-
-.buttonCategory:hover {
-    font-weight: bold;
-    font-size: larger;
-    cursor: pointer;
-}
 .jumbotron{
     margin-bottom: 0;
-}
-
-.categoryRadio{
-    text-align: center;
 }
 
 img{
     height: 220px;
     width: 220px;
+}
+
+.col{
+    padding: 15px;
+}
+.card{
+    border: 1px solid rgba(0,0,0,.125);
 }
