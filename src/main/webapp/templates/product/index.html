@@ -28,7 +28,7 @@
     <!-- End of Bootstrap components -->
 
     <link rel="stylesheet" type="text/css" href="/static/css/custom.css" />
-
+    <script src="/static/javascript/main.js" defer></script>
 </head>
 
 <body>
@@ -53,6 +53,18 @@
 <div class="container">
     <div id ="categoryName" class="card">
         <strong th:text="${category.name}">Category Title</strong>
+    <form id="filterForm" action="/" method="get">
+        <label for="supplier">Filter by Supplier:</label>
+        <select name="supplierId" id="supplier" th:field="${selectedSupplier}">
+            <option value="0">All Suppliers</option>
+            <th:block th:each="supplier : ${suppliers}">
+                <option th:value="${supplier.id}" th:text="${supplier.name}"></option>
+            </th:block>
+        </select>
+    </form>
+
+    <div class="card">
+        <strong th:text="${selectedSupplierName}">Supplier</strong>
     </div>
 
     <div id="products" class="row">
