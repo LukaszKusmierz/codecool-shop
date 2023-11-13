@@ -39,12 +39,14 @@
 
 
 <div>
-    <label for="category">Filer by Category:   </label>
-    <select name="categoryProducts" id="category">
-        <option id="tablet" data-category-id="1">Tablet</option>
-        <option id="earphones" data-category-id="2"  >Earphones</option>
-        <option id="laptop" data-category-id="3" >Laptop</option>
-    </select>
+        <label id="categoryLabel" for="category">Filer by Category: </label>
+        <select name="categoryProducts" id="category">
+            <option>--Please choose--</option>
+            <div th:each="cate: ${allCategory}">
+                <option th:data-category-id="${cate.id}" th:text="${cate.name}"> Category name</option>
+            </div>
+        </select>
+
 </div>
 
 
@@ -66,7 +68,7 @@
                         <p class="lead" th:text="${prod.getPrice()}">100 USD</p>
                     </div>
                     <div class="card-text">
-                        <a class="btn btn-success" href="#">Add to cart</a>
+                        <a th:data-product-id="${prod.id}" class="btn btn-success" href="#">Add to cart</a>
                     </div>
                 </div>
             </div>
