@@ -1,12 +1,10 @@
-const selectElement = document.getElementById('category');
-selectElement.addEventListener("change",optionCategory);
+const selectElementCategory = document.getElementById('category');
+selectElementCategory..addEventListener("change",optionCategory);
 
-    function fetchCategory(route) {
+function fetchProductsByCategory(route) {
     try {
-        console.log("try fetch" + route)
         const toFetch =`http://localhost:8080/products/get${route}`
         console.log("Fetching from " + toFetch)
-
         fetch(toFetch, {
             headers: {
                 'Accept': 'application/json'
@@ -22,34 +20,38 @@ selectElement.addEventListener("change",optionCategory);
     }
 }
 
-function optionCategory(event) {
-        const selectedOption = selectElement.options[selectElement.selectedIndex];
 
+function showDefaultTextInOption(data){
+    data.value = '--Please choose--';
+}
+
+
+function optionCategory(event) {
+        const selectedOption = selectElementCategory.options[selectElementCategory.selectedIndex];
         const categoryId = selectedOption.getAttribute('data-category-id');
         event.preventDefault();
         if (categoryId) {
-            fetchCategory(`?categoryId=${categoryId}`)
+            fetchProductsByCategory(`?categoryId=${categoryId}`)
+                showDefaultTextInOption(selectElementSupplier)
         }
 }
 
-function renderCategory(products) {
-    const container = document.getElementById('container');
+
+function showProductsByCategory(products) {
+     const container = document.querySelector('.container');
     const categoryNameContainer = document.getElementById('categoryName');
     const productContainer = document.getElementById('products');
 
-    categoryNameContainer.innerHTML='';
-    const cardName = document.createElement('div');
-    cardName.classList.add('card');
-    cardName.innerHTML = `
-             <strong> ${selectElement.options[selectElement.selectedIndex].innerHTML}</strong>
+    categoryNameContainer.innerHTML = `
+             <strong> ${selectElementCategory.options[selectElementCategory.selectedIndex].innerHTML}</strong>
       `
     productContainer.innerHTML = '';
     products.forEach((prod) => {
-        const card = document.createElement('div');
-        card.classList.add('col', 'col-sm-12', 'col-md-6', 'col-lg-4');
-        card.innerHTML = `
+        const cardProducts = document.createElement('div');
+        cardProducts.classList.add('col', 'col-sm-12', 'col-md-6', 'col-lg-4');
+        cardProducts.innerHTML = `
             
-             <div id="products" class="row">
+             <div class="card">
                 <img src="/static/img/product_${prod.id}.jpg">
                 <div class="card-header">
                     <h4 class="card-title">${prod.name}</h4>
@@ -60,15 +62,16 @@ function renderCategory(products) {
                         <p class="lead">${prod.defaultPrice}  ${prod.defaultCurrency}</p>
                     </div>
                     <div class="card-text">
-                        <a class="btn btn-success" href="#">Add to cart</a>
+                        <a data-product-id=${prod.id} class="btn btn-success" href="#">Add to cart</a>
                     </div>
                 </div>
             </div>
         `;
-        categoryNameContainer.append(cardName)
-        productContainer.append(card);
+        productContainer.appendChild(cardProducts);
+
     });
     container.append(categoryNameContainer);
-    container.append(productContainer);
+    container.appendChild(productContainer);
+
 }
 
