@@ -71,9 +71,18 @@ img{
     width: 220px;
 }
 
-.col{
-    padding: 15px;
+
+#categoryr {
+    text-align: left;
+    padding: 2px;
 }
-.card{
-    border: 1px solid rgba(0,0,0,.125);
+
+#category{
+    margin: 0px 10px 10px 10px;
+}
+
+#categoryLabel {
+    text-align: left;
+    padding: 2px;
+    margin: 10px 10px 10px 20px;
 }
