@@ -26,6 +26,7 @@
     <!-- End of Bootstrap components -->
 
     <link rel="stylesheet" type="text/css" href="/static/css/custom.css" />
+    <script src="/static/javascript/main.js" defer></script>
 </head>
 
 <body>
@@ -35,21 +36,33 @@
 </div>
 
 <div class="container">
+    <form id="filterForm" action="/" method="get">
+        <label for="supplier">Filter by Supplier:</label>
+        <select name="supplierId" id="supplier" th:field="${selectedSupplier}">
+            <option value="0">All Suppliers</option>
+            <th:block th:each="supplier : ${suppliers}">
+                <option th:value="${supplier.id}" th:text="${supplier.name}"></option>
+            </th:block>
+        </select>
+    </form>
+
     <div class="card">
-        <strong th:text="${category.name}">Category Title</strong>
+        <strong th:text="${selectedSupplierName}">Supplier</strong>
     </div>
 
     <div id="products" class="row">
-        <div class="col col-sm-12 col-md-6 col-lg-4" th:each="prod,iterStat : ${products}">
-            <div class="card">
-                <img src="http://placehold.it/400x250/000/fff" th:src="@{${'/static/img/product_'+prod.id+'.jpg'}}"/>
+        <div class="col col-sm-12 col-md-6 col-lg-4" th:each="product,iterStat : ${products}">
+            <div class="card" th:product_id="${product.id}">
+<!--                <img class="product-image" src="https://placehold.it/400x250/000/fff" alt="Product Image"/>-->
+                    <img src="https://placehold.it/400x250/000/fff" th:src="@{${'/static/img/product_'+product.id+'.jpg'}}"/>
+<!--                <img src="https://placehold.it/400x250/000/fff" th:src="@{${'/static/img/product_'+product.id+'.png'}}"/>-->
                 <div class="card-header">
-                    <h4 class="card-title" th:text="${prod.name}">Product name</h4>
-                    <p class="card-text" th:text="${prod.description}">Product description... </p>
+                    <h4 class="card-title" th:text="${product.name}">Product name</h4>
+                    <p class="card-text" th:text="${product.description}">Product description... </p>
                 </div>
                 <div class="card-body">
                     <div class="card-text">
-                        <p class="lead" th:text="${prod.getPrice()}">100 USD</p>
+                        <p class="lead" th:text="${product.getPrice()}">100 USD</p>
                     </div>
                     <div class="card-text">
                         <a class="btn btn-success" href="#">Add to cart</a>

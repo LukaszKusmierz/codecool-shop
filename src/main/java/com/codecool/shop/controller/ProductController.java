@@ -2,10 +2,13 @@ package com.codecool.shop.controller;
 
 import com.codecool.shop.dao.ProductCategoryDao;
 import com.codecool.shop.dao.ProductDao;
+import com.codecool.shop.dao.SupplierDao;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
+import com.codecool.shop.dao.implementation.SupplierDaoMem;
 import com.codecool.shop.service.ProductService;
 import com.codecool.shop.config.TemplateEngineUtil;
+import com.codecool.shop.service.SupplierService;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 
@@ -28,20 +31,40 @@ public class ProductController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ProductDao productDataStore = ProductDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
-        ProductService productService = new ProductService(productDataStore,productCategoryDataStore);
+        SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
+        ProductService productService = new ProductService(productDataStore,productCategoryDataStore,supplierDataStore);
+        SupplierService supplierService = new SupplierService(supplierDataStore);
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
         IWebExchange webExchange = JakartaServletWebApplication.buildApplication(getServletContext())
                 .buildExchange(req, resp);
         WebContext context = new WebContext(webExchange);
-        context.setVariable("category", productService.getProductCategory(1));
-        context.setVariable("products", productService.getProductsForCategory(1));
-        // Alternative setting of the template context
-        // Map<String, Object> params = new HashMap<>();
-        // params.put("category", productCategoryDataStore.find(1));
-        // params.put("products", productDataStore.getBy(productCategoryDataStore.find(1)));
-        // context.setVariables(params);
+
+        if (req.getParameter("supplierId") != null) {
+            int supplierId = Integer.parseInt(req.getParameter("supplierId"));
+            String selectedSupplierName;
+            if (supplierId == 0) {
+                selectedSupplierName = "All Suppliers";
+            } else {
+                selectedSupplierName = supplierService.getSupplierNameById(supplierId);
+            }
+            context.setVariable("selectedSupplier", supplierId);
+            context.setVariable("selectedSupplierName", selectedSupplierName);
+            context.setVariable("products", productService.getProductsBySupplier(supplierId));
+        } else {
+            context.setVariable("selectedSupplier", 0);
+            context.setVariable("selectedSupplierName", "All Suppliers");
+            context.setVariable("products", productService.getAllProducts());
+        }
+
+        context.setVariable("category", productService.getAllProductCategories());
+        context.setVariable("suppliers", supplierService.getAllSuppliers());
         engine.process("product/index.html", context, resp.getWriter());
+//        if (req.getRequestURI().equals("/update-content")) {
+//            engine.process("product/product-cards.html", context, resp.getWriter());
+//        } else {
+//            engine.process("product/index.html", context, resp.getWriter());
+//        }
     }
 
 }
