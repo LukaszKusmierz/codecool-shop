@@ -40,6 +40,7 @@ public class ProductController extends HttpServlet {
         context.setVariable("ctxPath", req.getContextPath());
         context.setVariable("category", productService.getProductCategory(categoryId));
         context.setVariable("products", productService.getProductsForCategory(categoryId));
+        context.setVariable("allCategory", productCategoryDataStore.getAll());
         engine.process("product/index.html", context, resp.getWriter());
     }
 }
