@@ -32,7 +32,7 @@ public class ProductController extends HttpServlet {
         ProductDao productDataStore = ProductDaoMem.getInstance();
         ProductCategoryDao productCategoryDataStore = ProductCategoryDaoMem.getInstance();
         SupplierDao supplierDataStore = SupplierDaoMem.getInstance();
-        ProductService productService = new ProductService(productDataStore,productCategoryDataStore,supplierDataStore);
+        ProductService productService = new ProductService(productDataStore, productCategoryDataStore, supplierDataStore);
         SupplierService supplierService = new SupplierService(supplierDataStore);
 
         TemplateEngine engine = TemplateEngineUtil.getTemplateEngine(req.getServletContext());
@@ -40,7 +40,16 @@ public class ProductController extends HttpServlet {
                 .buildExchange(req, resp);
         WebContext context = new WebContext(webExchange);
 
-        if (req.getParameter("supplierId") != null) {
+    int categoryId = 1;
+    if(req.getParameter("categoryId") != null) {
+        categoryId = Integer.parseInt(req.getParameter("categoryId"));
+    }
+    context.setVariable("ctxPath", req.getContextPath());
+    context.setVariable("category", productService.getProductCategory(categoryId));
+    context.setVariable("products", productService.getProductsForCategory(categoryId));
+    context.setVariable("allCategory", productCategoryDataStore.getAll());
+
+    if (req.getParameter("supplierId") != null) {
             int supplierId = Integer.parseInt(req.getParameter("supplierId"));
             String selectedSupplierName;
             if (supplierId == 0) {
@@ -51,24 +60,16 @@ public class ProductController extends HttpServlet {
             context.setVariable("selectedSupplier", supplierId);
             context.setVariable("selectedSupplierName", selectedSupplierName);
             context.setVariable("products", productService.getProductsBySupplier(supplierId));
-        } else {
+    } else {
             context.setVariable("selectedSupplier", 0);
             context.setVariable("selectedSupplierName", "All Suppliers");
             context.setVariable("products", productService.getAllProducts());
-        }
+    }
 
-        context.setVariable("category", productService.getAllProductCategories());
-        context.setVariable("suppliers", supplierService.getAllSuppliers());
+//    context.setVariable("category", productService.getAllProductCategories());
+    context.setVariable("suppliers", supplierService.getAllSuppliers());
+    engine.process("product/index.html", context, resp.getWriter());
 
-        int categoryId = 1;
-        if(req.getParameter("categoryId") != null){
-            categoryId =Integer.parseInt(req.getParameter("categoryId"));
-        }
-        context.setVariable("ctxPath", req.getContextPath());
-        context.setVariable("category", productService.getProductCategory(categoryId));
-        context.setVariable("products", productService.getProductsForCategory(categoryId));
-        context.setVariable("allCategory", productCategoryDataStore.getAll());
-        engine.process("product/index.html", context, resp.getWriter());
     }
 
 }
