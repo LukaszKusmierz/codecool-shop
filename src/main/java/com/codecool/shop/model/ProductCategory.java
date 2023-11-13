@@ -1,16 +1,24 @@
 package com.codecool.shop.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.gson.annotations.Expose;
+
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ProductCategory extends BaseModel {
     private String department;
+
+
     private List<Product> products;
 
     public ProductCategory(String name, String department, String description) {
         super(name);
         this.department = department;
         this.products = new ArrayList<>();
+        this.description = description;
     }
 
     public String getDepartment() {
