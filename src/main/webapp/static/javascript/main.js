@@ -1,5 +1,5 @@
 const selectElementCategory = document.getElementById('category');
-selectElementCategory..addEventListener("change",optionCategory);
+selectElementCategory.addEventListener("change",optionCategory);
 
 function fetchProductsByCategory(route) {
     try {
@@ -11,7 +11,7 @@ function fetchProductsByCategory(route) {
             }
         })
             .then((response) => response.json())
-            .then((data) => renderCategory(data))
+            .then((data) => showProductsByCategory(data))
             .catch(error => {
                 console.log(error)
             })
@@ -21,9 +21,6 @@ function fetchProductsByCategory(route) {
 }
 
 
-function showDefaultTextInOption(data){
-    data.value = '--Please choose--';
-}
 
 
 function optionCategory(event) {
@@ -32,7 +29,6 @@ function optionCategory(event) {
         event.preventDefault();
         if (categoryId) {
             fetchProductsByCategory(`?categoryId=${categoryId}`)
-                showDefaultTextInOption(selectElementSupplier)
         }
 }
 
