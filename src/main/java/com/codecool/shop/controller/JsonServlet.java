@@ -29,7 +29,7 @@ public class JsonServlet extends HttpServlet {
             categoryId = Integer.parseInt(request.getParameter("categoryId"));
         }
 
-        List<Product> productsList = productDataStore.getBy(productCategoryDataStore.find(categoryId));
+        List<Product> productsListByCategory = productDataStore.getBy(productCategoryDataStore.find(categoryId));
 
         Gson gson = new GsonBuilder()
                 .setExclusionStrategies(new ProductExclusionStrategy())
@@ -38,7 +38,7 @@ public class JsonServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
-        out.println(gson.toJson(productsList));
+        out.println(gson.toJson(productsListByCategory));
 
 
 
