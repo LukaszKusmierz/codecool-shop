@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="filters">
+    <div>
+        <label id="categoryLabel" for="category">Filter by Category: </label>
+        <select name="categoryProducts" id="category">
+            <option>--Please choose--</option>
+            <div th:each="cate: ${allCategory}">
+                <option th:data-category-id="${cate.id}" th:text="${cate.name}"> Category name</option>
+            </div>
+        </select>
+
+    </div>
+
+    <div>
+        <label id="supplierLabel" for="supplier">Filter by Supplier: </label>
+        <select name="supplierProducts" id="supplier">
+            <option>--Please choose--</option>
+            <div th:each="sup: ${allSupplier}">
+                <option th:data-supplier-id="${sup.id}" th:text="${sup.name}"> Supplier name</option>
+            </div>
+        </select>
+    </div>
+</div>
+
+</body>
+</html>

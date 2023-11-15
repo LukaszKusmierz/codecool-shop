@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="header.html :: header"></div>
+</head>
+
+<body class="bodyCart">
+<div th:replace="bodyTop.html :: bodyTop"></div>
+
+<a id="menu_basket" class="basket" href="http://localhost:8080/cart">
+    <img id="basket_id" class="special-image" src="/static/img/cart_bag_1.png"/></a>
+<span class="amountItem amountItem-info" th:text="${numberItems}" ></span>
+
+
+<section id="contentCart" class="cart">
+
+    <div class="cartName">Shopping Cart
+        <span class="backMainPage">
+        <a id="mainPage" href="http://localhost:8080/">
+        <img class="continueShopping" src="/static/img/continue.png"/>
+        </a> </span>
+    </div>
+
+
+    <div class="cartItems">
+        <div class="cartBlockLabels">
+            <div class="cartItemLabelPhoto"></div>
+            <div class="cartItemLabel">Name</div>
+            <div class="cartItemLabel">Unit price</div>
+            <div class="cartItemLabel">Subtotal price</div>
+            <div class="cartItemCalculate">
+                <div class="cartItemLabelQuantity">Quantity</div>
+            </div>
+            <div class="cartItemLabel">Remove</div>
+        </div>
+        <div class="rowItem" th:each="item,iterStat : ${cartItems}">
+            <div class="cartBlockItem" th:data-cartItem-id="${item.id}">
+                <div class="cartItemValuePhoto">
+                    <img class="imageItemInCart" src="http://placehold.it/400x250/000/fff"
+                         th:src="@{${'/static/img/product_'+item.id+'.jpg'}}">
+                </div>
+                <div class="cartItemValue">
+                    <h5 class="itemName" th:text="${item.name}">Name</h5>
+                </div>
+                <div class="cartItemValue">
+                    <span class="itemPrice" th:text="${item.getDefaultPrice()}"> Price</span>
+                </div>
+                <div class="cartItemValue">
+                    <span class="itemPriceSum" th:text="${item.subTotal()}">Price2</span>
+                </div>
+                <div class="cartItemValueInput">
+                    <a href class="oddQuantity">-</a>
+                    <input class="numberOfQuantity" th:value="${quantity}">
+                    <a href class="addQuantity">+</a>
+                    <div class="cartItemRemove"></div>
+                </div>
+                <div id="idRemove" class="cartItemValue">
+                    <span class="removeIcon" th:data-cartItem-id="${item.id}">x</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="summaryPrice">
+        <label class="totalPrice">Total Price: </label>
+        <strong class="totalAmount" th:text="${totalPrice}">price currency</strong>
+        <span class="totalAmount">USD</span>
+    </div>
+
+    <div class="nextStep">
+       <button class="buttonNextStep"> Next Step</button>
+    </div>
+
+</section>
+
+
+<div th:replace="footer.html :: footer"></div>
+</body>
+</html>

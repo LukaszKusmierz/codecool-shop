@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 
 public class BaseModel {
 
-    protected int id;
+    public int id;
     protected String name;
     protected String description;
 
@@ -13,9 +13,10 @@ public class BaseModel {
         this.name = name;
     }
 
-    public BaseModel(String name, String description) {
+    public BaseModel( int id, String name, String description) {
         this.name = name;
         this.description = description;
+        this.id =id;
     }
 
 

@@ -1,55 +1,76 @@
-const selectElement = document.getElementById('category');
-selectElement.addEventListener("change",optionCategory);
+const selectElementCategory = document.getElementById('category');
+const selectElementSupplier = document.getElementById('supplier');
+const addCartButtons = document.querySelectorAll('a[data-product-id]');
+const removeButtons = document.querySelectorAll('.removeIcon');
+const elementsWithIdRemove = document.querySelectorAll('[id=idRemove]')
+addCartButtons.forEach(button => {
+    button.addEventListener("click", addProductToCart);
 
-    function fetchCategory(route) {
+});
+
+elementsWithIdRemove.forEach(element => {
+    element.addEventListener("click", removeLineItem);
+});
+// document.getElementById(`idRemove`).addEventListener("click",removeLineItem)
+// removeButtons.forEach(button => {
+//     button.addEventListener("onclick", removeLineItem)
+//     console.log("klklk")
+// })
+
+selectElementCategory.addEventListener("change", optionCategory);
+selectElementSupplier.addEventListener("change", optionSupplier);
+
+
+// menu.addEventListener("click", getNumberOfItem);
+
+function fetchProductsByCategory(route) {
     try {
-        console.log("try fetch" + route)
-        const toFetch =`http://localhost:8080/products/get${route}`
-        console.log("Fetching from " + toFetch)
-
+        const toFetch = `http://localhost:8080/products/get${route}`
         fetch(toFetch, {
             headers: {
                 'Accept': 'application/json'
             }
         })
             .then((response) => response.json())
-            .then((data) => renderCategory(data))
+            .then((data) => showProductsByCategory(data))
             .catch(error => {
                 console.log(error)
             })
-    }catch (error) {
+    } catch (error) {
         console.log(error)
     }
 }
 
-function optionCategory(event) {
-        const selectedOption = selectElement.options[selectElement.selectedIndex];
 
-        const categoryId = selectedOption.getAttribute('data-category-id');
-        event.preventDefault();
-        if (categoryId) {
-            fetchCategory(`?categoryId=${categoryId}`)
-        }
+function showDefaultTextInOption(data) {
+    data.value = '--Please choose--';
 }
 
-function renderCategory(products) {
-    const container = document.getElementById('container');
+function optionCategory(event) {
+    const selectedOption = selectElementCategory.options[selectElementCategory.selectedIndex];
+    const categoryId = selectedOption.getAttribute('data-category-id');
+    event.preventDefault();
+    if (categoryId) {
+        fetchProductsByCategory(`?categoryId=${categoryId}`)
+        showDefaultTextInOption(selectElementSupplier)
+    }
+}
+
+function showProductsByCategory(products) {
+    const container = document.querySelector('.container');
     const categoryNameContainer = document.getElementById('categoryName');
     const productContainer = document.getElementById('products');
 
-    categoryNameContainer.innerHTML='';
-    const cardName = document.createElement('div');
-    cardName.classList.add('card');
-    cardName.innerHTML = `
-             <strong> ${selectElement.options[selectElement.selectedIndex].innerHTML}</strong>
+    categoryNameContainer.innerHTML = `
+             <strong> ${selectElementCategory.options[selectElementCategory.selectedIndex].innerHTML}</strong>
       `
     productContainer.innerHTML = '';
     products.forEach((prod) => {
-        const card = document.createElement('div');
-        card.classList.add('col', 'col-sm-12', 'col-md-6', 'col-lg-4');
-        card.innerHTML = `
+        const cardProducts = document.createElement('div');
+        cardProducts.classList.add('col', 'col-sm-12', 'col-md-6', 'col-lg-4');
+        cardProducts.innerHTML = `
             
-             <div id="products" class="row">
+             <div class="card">
                 <img src="/static/img/product_${prod.id}.jpg">
                 <div class="card-header">
                     <h4 class="card-title">${prod.name}</h4>
@@ -60,15 +81,213 @@ function renderCategory(products) {
                         <p class="lead">${prod.defaultPrice}  ${prod.defaultCurrency}</p>
                     </div>
                     <div class="card-text">
-                        <a class="btn btn-success" href="#">Add to cart</a>
+                        <a data-product-id=${prod.id} class="btn btn-success" href="#">Add to cart</a>
                     </div>
                 </div>
             </div>
         `;
-        categoryNameContainer.append(cardName)
-        productContainer.append(card);
+        productContainer.appendChild(cardProducts);
+
     });
     container.append(categoryNameContainer);
-    container.append(productContainer);
+    container.appendChild(productContainer);
+    updateEventListeners()
+
 }
+
+
+function optionSupplier(event) {
+    const selectedOption = selectElementSupplier.options[selectElementSupplier.selectedIndex];
+    const supplierId = selectedOption.getAttribute('data-supplier-id');
+    event.preventDefault();
+    if (supplierId) {
+        fetchProductsBySupplier(`?supplierId=${supplierId}`)
+        showDefaultTextInOption(selectElementCategory)
+    }
+}
+
+
+function fetchProductsBySupplier(route) {
+    try {
+        const toFetch = `http://localhost:8080/supplier/get${route}`
+        console.log("Fetching from " + toFetch)
+        fetch(toFetch, {
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+            .then((response) => response.json())
+            .then((data) => showProductsBySupplier(data))
+            .catch(error => {
+                console.log(error)
+            })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+function showProductsBySupplier(products) {
+    const container = document.querySelector('.container');
+    const categoryNameContainer = document.getElementById('categoryName');
+    const productContainer = document.getElementById('products');
+
+    categoryNameContainer.innerHTML = `
+             <strong> ${selectElementSupplier.options[selectElementSupplier.selectedIndex].innerHTML}</strong>
+      `
+    productContainer.innerHTML = '';
+    products.forEach((prod) => {
+        const cardProducts = document.createElement('div');
+        cardProducts.classList.add('col', 'col-sm-12', 'col-md-6', 'col-lg-4');
+        cardProducts.innerHTML = `
+
+             <div class="card">
+                <img src="/static/img/product_${prod.id}.jpg">
+                <div class="card-header">
+                    <h4 class="card-title">${prod.name}</h4>
+                    <p class="card-text">${prod.description}</p>
+                </div>
+                <div class="card-body">
+                    <div class="card-text">
+                        <p class="lead">${prod.defaultPrice}  ${prod.defaultCurrency}</p>
+                    </div>
+                    <div class="card-text">
+                        <a data-product-id=${prod.id} class="btn btn-success" href="#">Add to cart</a>
+                    </div>
+                </div>
+            </div>
+        `;
+        productContainer.appendChild(cardProducts);
+
+    });
+    container.append(categoryNameContainer);
+    container.appendChild(productContainer);
+    updateEventListeners();
+}
+
+
+function addProductToCart(event) {
+    const button = event.target;
+    const productId = button.getAttribute('data-product-id');
+    event.preventDefault();
+    if (productId) {
+        fetchAddProductToCart(productId)
+        // changeNumber();
+    }
+}
+
+
+function updateEventListeners() {
+    const addCartButtons = document.querySelectorAll('a[data-product-id]');
+    addCartButtons.forEach(button => {
+        button.addEventListener("click", addProductToCart);
+
+    });
+}
+
+// function getNumberOfItem() {
+//     if(menu){
+//         console.log("menu")
+//         fetchNumberOfItemInCart()
+//     }
+//
+// }
+// fetchNumberOfItemInCart();
+
+// function fetchNumberOfItemInCart() {
+//     try {
+//         console.log("try to fetch: ")
+//         const toFetch = `http://localhost:8080/cart/items/numbers`
+//         console.log(" fetch:  " + toFetch)
+//         fetch(toFetch, {
+//             method: "PUT",
+//             headers: {
+//                 'Accept': 'application/json',
+//                 'Content-Type': 'application/json',
+//                 'number': 'number'
+//             },
+//             body: JSON.stringify({numberOfItemInCart})
+//         })
+//             .then((response) => {
+//                 const numberHeader = response.headers.get('number');
+//                 console.log("Number header value: " + numberHeader);
+//                 document.getElementById('numberDisplay').textContent = numberHeader
+//                 return response.json();
+//             })
+//             .then((data) => console.log(JSON.stringify(data)))
+//             .catch(error => {
+//                 console.log(error)
+//             })
+//     } catch (error) {
+//         console.log(error)
+//     }
+// }
+
+function fetchAddProductToCart(productId) {
+    try {
+        console.log("try to fetch: ")
+        const toFetch = `http://localhost:8080/cart/items`
+        console.log(" fetch:  " + toFetch)
+        fetch(toFetch, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Header': 'number'
+
+            },
+            body: JSON.stringify({productId: parseInt(productId)})
+        })
+            .then((response) => {
+                const numberHeader = response.headers.get('number');
+                console.log("Number header value: " + numberHeader);
+                document.querySelector('.amountItem-info').textContent = numberHeader
+                return response.json();
+            })
+            .then((data) => console.log("data " + data))
+            .catch(error => {
+                console.log(error)
+            })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+function removeLineItem(event) {
+    const button = event.target;
+    const itemId = button.getAttribute('data-cartItem-id');
+    event.preventDefault();
+    if (itemId) {
+        fetchDeleteProductFromCart(`?itemId=${itemId}`)
+    }
+
+}
+
+function fetchDeleteProductFromCart(route) {
+    try {
+        console.log("try to fetch: ")
+        const toFetch = `http://localhost:8080/cart/items${route}`
+        console.log(" fetch:  " + toFetch)
+        fetch(toFetch, {
+            method: "DELETE",
+        })
+            .then(() => {
+                window.location.reload();
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+// function changeNumber() {
+//     const numberOfItemInCart = document.querySelector(`.amountItem-info`);
+//     let value = parseInt(numberOfItemInCart.innerHTML);
+//     numberOfItemInCart.innerHTML = value + 1;
+//
+// }
+
 

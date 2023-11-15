@@ -6,14 +6,15 @@ import java.util.Currency;
 
 public class Product extends BaseModel {
 
-    private BigDecimal defaultPrice;
-    private Currency defaultCurrency;
+    public BigDecimal defaultPrice;
+    public Currency defaultCurrency;
     private ProductCategory productCategory;
     private Supplier supplier;
+    private int quantityOfSell =1;
 
 
-    public Product(String name, BigDecimal defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier) {
-        super(name, description);
+    public Product(int id, String name, BigDecimal defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier) {
+        super(id,name, description);
         this.setPrice(defaultPrice, currencyString);
         this.setSupplier(supplier);
         this.setProductCategory(productCategory);
@@ -29,6 +30,20 @@ public class Product extends BaseModel {
 
     public Currency getDefaultCurrency() {
         return defaultCurrency;
+    }
+
+    public int getQuantityOfSell() {
+        return quantityOfSell;
+    }
+
+    public BigDecimal subTotal(){
+        BigDecimal productPrice = defaultPrice.multiply(BigDecimal.valueOf(quantityOfSell));
+        productPrice.setScale(2, BigDecimal.ROUND_CEILING);
+        return productPrice;
+    }
+
+    public void setQuantityOfSell(int quantityOfSell) {
+        this.quantityOfSell = quantityOfSell;
     }
 
     public void setDefaultCurrency(Currency defaultCurrency) {
