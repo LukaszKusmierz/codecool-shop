@@ -43,15 +43,15 @@
                     <h5 class="itemName" th:text="${item.name}">Name</h5>
                 </div>
                 <div class="cartItemValue">
-                    <span class="itemPrice" th:text="${item.getDefaultPrice()}"> Price</span>
+                    <span class="itemPrice" th:data-cartItem-id="${item.id}"  th:text="${item.getDefaultPrice()}"> Price</span>
                 </div>
                 <div class="cartItemValue">
-                    <span class="itemPriceSum" th:text="${item.subTotal()}">Price2</span>
+                    <span class="itemPriceSum" th:data-cartItem-id="${item.id}" th:text="${item.subTotal()}">Price2</span>
                 </div>
                 <div class="cartItemValueInput">
-                    <span class="oddQuantity" th:data-cartItem-id="${item.id}">-</span>
+                    <span id="odd" class="oddQuantity" th:data-cartItem-id="${item.id}">-</span>
                     <input class="numberOfQuantity" th:data-cartItem-id="${item.id}" th:value="${quantity}">
-                    <span  class="addQuantity" th:data-cartItem-id="${item.id}">+</span>
+                    <span id="add" class="addQuantity" th:data-cartItem-id="${item.id}">+</span>
                     <div class="cartItemRemove"></div>
                 </div>
                 <div id="idRemove" class="cartItemValue">

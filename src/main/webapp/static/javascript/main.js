@@ -4,7 +4,16 @@ const addCartButtons = document.querySelectorAll('a[data-product-id]');
 const removeButtons = document.querySelectorAll('.removeIcon');
 const elementsWithIdRemove = document.querySelectorAll('[id=idRemove]')
 const actualNumbers = document.querySelectorAll(`.numberOfQuantity[data-cartItem-id]`);
-// const addButtons =  document.querySelectorAll(`.addQuantity[data-cartItem-id]`);
+const addQuantityButtons = document.querySelectorAll(`.addQuantity`);
+const oddQuantityButtons = document.querySelectorAll(`.oddQuantity`);
+
+addQuantityButtons.forEach(button => {
+    button.addEventListener("click", addQuantityFunction);
+});
+
+oddQuantityButtons.forEach(button => {
+    button.addEventListener("click", oddQuantityFunction);
+});
 
 addCartButtons.forEach(button => {
     button.addEventListener("click", addProductToCart);
@@ -13,6 +22,7 @@ addCartButtons.forEach(button => {
 elementsWithIdRemove.forEach(element => {
     element.addEventListener("click", removeLineItem);
 });
+
 
 selectElementCategory.addEventListener("change", optionCategory);
 selectElementSupplier.addEventListener("change", optionSupplier);
@@ -87,9 +97,7 @@ function showProductsByCategory(products) {
     container.append(categoryNameContainer);
     container.appendChild(productContainer);
     updateEventListeners()
-
 }
-
 
 function optionSupplier(event) {
     const selectedOption = selectElementSupplier.options[selectElementSupplier.selectedIndex];
@@ -100,7 +108,6 @@ function optionSupplier(event) {
         showDefaultTextInOption(selectElementCategory)
     }
 }
-
 
 function fetchProductsBySupplier(route) {
     try {
@@ -152,7 +159,6 @@ function showProductsBySupplier(products) {
             </div>
         `;
         productContainer.appendChild(cardProducts);
-
     });
     container.append(categoryNameContainer);
     container.appendChild(productContainer);
@@ -175,7 +181,6 @@ function updateEventListeners() {
     const addCartButtons = document.querySelectorAll('a[data-product-id]');
     addCartButtons.forEach(button => {
         button.addEventListener("click", addProductToCart);
-
     });
 }
 
@@ -228,7 +233,6 @@ function fetchAddProductToCart(productId) {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'Header': 'number'
-
             },
             body: JSON.stringify({productId: parseInt(productId)})
         })
@@ -255,7 +259,6 @@ function removeLineItem(event) {
     if (itemId) {
         fetchDeleteProductFromCart(`?itemId=${itemId}`)
     }
-
 }
 
 function fetchDeleteProductFromCart(route) {
@@ -277,33 +280,56 @@ function fetchDeleteProductFromCart(route) {
     }
 }
 
-
-document.addEventListener("DOMContentLoaded", function () {
-    // Your code here
-    const actualNumbers = document.querySelectorAll(`.numberOfQuantity[data-cartItem-id]`);
-    const addButtons = document.querySelectorAll(`.addQuantity[data-cartItem-id]`);
-    addButtons.forEach(element => {
-        element.addEventListener("click", evt =>
-            console.log("klknieto przycisk")
-        )
-    });
-});
-
-
-// addButtons.forEach(element => {
-//     element.addEventListener("click", addQuantity);
-// });
-
-function addQuantity() {
-    console.log("add")
+function addQuantityFunction(event) {
+    const button = event.target;
+    const itemId = button.getAttribute('data-cartItem-id');
+    console.log(itemId)
+    event.preventDefault();
     actualNumbers.forEach(number => {
-        console.log(number.value)
-        console.log(number)
-        number.value = parseInt(number.value) + 1;
-        console.log(number.value)
+        if (number.getAttribute('data-cartItem-id') === itemId) {
+            number.value = parseInt(number.value) + 1;
+            subtotalValue(itemId, number)
+        }
+    })
+}
+
+function oddQuantityFunction(event) {
+    const button = event.target;
+    const itemId = button.getAttribute('data-cartItem-id');
+    event.preventDefault();
+    actualNumbers.forEach(number => {
+        if (number.value > 0) {
+            if (number.getAttribute('data-cartItem-id') === itemId) {
+                number.value = parseInt(number.value) - 1;
+                subtotalValue(itemId, number)
+                if (parseInt(number.value) === 0) {
+                    fetchDeleteProductFromCart(`?itemId=${itemId}`)
+                }
+            }
+        }
+    })
+}
+
+
+function subtotalValue(itemId, actualQuantityNumber){
+    const subValues = document.querySelectorAll(`.itemPriceSum`);
+    const itemValues = document.querySelectorAll(`.itemPrice`);
+    subValues.forEach(valueNumber => {
+        itemValues.forEach(itemNumber => {
+
+            if ((valueNumber.getAttribute('data-cartItem-id') === itemId && itemNumber.getAttribute('data-cartItem-id') === itemId)) {
+                const newValue = parseFloat(itemNumber.innerHTML) * (parseFloat(actualQuantityNumber.value));
+                console.log(newValue.toFixed(2))
+                valueNumber.innerHTML = newValue.toFixed(2);
+                console.log(valueNumber.innerHTML)
+            }
+        })
     })
 
+
 }
+
+
 
 
 

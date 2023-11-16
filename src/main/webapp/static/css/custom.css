@@ -152,7 +152,7 @@ img.special-image {
     flex-direction: row;
     align-items: center;
     position: relative;
-    border-bottom: 1px solid grey;
+    border-bottom: 1px solid #004085;
     margin: 20px 0 40px 250px;
 }
 
@@ -194,10 +194,11 @@ img.special-image {
 .cartBlockItem {
    text-align: center;
     margin: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #004085;
     display: inline-flex;
     align-items: center;
     width: 1400px;
+
 }
 
 .cartItemLabel{
@@ -263,7 +264,7 @@ img.special-image {
 }
 
 .buttonNextStep{
-    background-color: #69696963;
+    background-color: #004085;
     color: black;
     font-size: 1.4rem;
     font-weight: bold;
@@ -276,11 +277,9 @@ img.special-image {
 }
 
 .addQuantity:hover{
-    font-size: 170%;
     cursor: pointer;
 }
 
 .oddQuantity:hover{
-    font-size: 170%;
     cursor: pointer;
 }
