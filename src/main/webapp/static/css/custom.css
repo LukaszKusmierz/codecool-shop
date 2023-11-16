@@ -1,68 +1,65 @@
 .glyphicon {
-    margin-right:5px;
+    margin-right: 5px;
 }
-.thumbnail
-{
+
+.thumbnail {
     margin-bottom: 20px;
     padding: 0px;
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
     border-radius: 0px;
 }
-.thumbnail img
-{
-   margin-top: 10px;
+
+.thumbnail img {
+    margin-top: 10px;
 }
-.item.list-group-item
-{
+
+.item.list-group-item {
     float: none;
     width: 100%;
     background-color: #fff;
     margin-bottom: 10px;
 }
-.item.list-group-item:nth-of-type(odd):hover,.item.list-group-item:hover
-{
+
+.item.list-group-item:nth-of-type(odd):hover, .item.list-group-item:hover {
     background: #428bca;
 }
 
-.item.list-group-item .list-group-image
-{
+.item.list-group-item .list-group-image {
     margin-right: 10px;
 }
-.item.list-group-item .thumbnail
-{
+
+.item.list-group-item .thumbnail {
     margin-bottom: 0px;
 }
-.item.list-group-item .caption
-{
+
+.item.list-group-item .caption {
     padding: 9px 9px 0px 9px;
 }
-.item.list-group-item:nth-of-type(odd)
-{
+
+.item.list-group-item:nth-of-type(odd) {
     background: #eeeeee;
 }
 
-.item.list-group-item:before, .item.list-group-item:after
-{
+.item.list-group-item:before, .item.list-group-item:after {
     display: table;
     content: " ";
 }
 
-.item.list-group-item img
-{
+.item.list-group-item img {
     float: left;
 }
-.item.list-group-item:after
-{
+
+.item.list-group-item:after {
     clear: both;
 }
-.list-group-item-text
-{
+
+.list-group-item-text {
     margin: 0 0 11px;
 }
 
 
-img{
+img {
     height: 220px;
     width: 220px;
 }
@@ -72,15 +69,15 @@ img{
     padding: 2px;
 }
 
-#supplier{
+#supplier {
     margin: 0px 10px 10px 16px;
 }
 
-#category{
+#category {
     margin: 0px 10px 10px 10px;
 }
 
-#categoryLabel , #supplierLabel {
+#categoryLabel, #supplierLabel {
     text-align: left;
     padding: 2px;
     margin: 10px 10px 10px 20px;
@@ -94,7 +91,8 @@ img.special-image {
     margin-top: 7px;
 
 }
-.imageItemInCart, .continueShopping{
+
+.imageItemInCart, .continueShopping {
     height: 90px;
     width: 80px;
 }
@@ -104,15 +102,14 @@ img.special-image {
 }
 
 
-
-.amountItem-info{
+.amountItem-info {
     background-color: black;
     position: absolute;
     top: 240px;
     right: 74px;
 }
 
-.amountItem{
+.amountItem {
     border-radius: 100%;
     color: white;
     display: inline-block;
@@ -135,44 +132,46 @@ img.special-image {
 
 
 .cartItems {
-   text-align: center;
+    text-align: center;
 }
 
-.cartName{
+.cartName {
     text-align: center;
     justify-content: center;
-    font-size: 2rem ;
+    font-size: 2rem;
     font-weight: bold;
 }
 
 
-.cartBlockLabels{
+.cartBlockLabels {
     height: 120px;
     display: inline-flex;
     flex-direction: row;
     align-items: center;
     position: relative;
-    border-bottom: 1px solid #004085;
+    border-bottom: 1px solid #3451ff;
     margin: 20px 0 40px 250px;
 }
 
-.oddQuantity{
+.oddQuantity {
     height: 30px;
     width: 30px;
     padding: 10px;
     margin: 5px;
 }
 
-.addQuantity{
+.addQuantity {
     height: 30px;
     width: 30px;
     padding: 10px;
     margin: 5px;
-}{
+}
+
+{
 
 }
 
-.cartItemLabelQuantity{
+.cartItemLabelQuantity {
     font-size: 1.4rem;
     padding: 15px 30px 0 15px;
     margin: 15px 40px 5px 40px;
@@ -181,7 +180,7 @@ img.special-image {
 
 }
 
-.cartItemValuePhoto{
+.cartItemValuePhoto {
     font-size: 1.2rem;
     padding: 5px 30px 5px 30px;
     margin: 5px 70px 5px 0;
@@ -192,23 +191,25 @@ img.special-image {
 
 
 .cartBlockItem {
-   text-align: center;
+    text-align: center;
     margin: 10px;
-    border: 1px solid #004085;
+    border: 1px solid #3451ff;
     display: inline-flex;
     align-items: center;
+    border-radius: 10px;
     width: 1400px;
 
 }
 
-.cartItemLabel{
+.cartItemLabel {
     font-size: 1.4rem;
     padding: 15px 30px 0 15px;
     margin: 15px 30px 5px 40px;
     font-weight: bold;
     display: inline-block;
 }
-.cartItemValue{
+
+.cartItemValue {
     font-size: 1.2rem;
     /*padding: 5px 30px 5px 30px;*/
     margin: 5px 50px 5px 0px;
@@ -216,31 +217,30 @@ img.special-image {
     width: 200px;
 }
 
-.cartItemValueInput{
+.cartItemValueInput {
     font-size: 1.2rem;
 
 
-
 }
-.numberOfQuantity{
+
+.numberOfQuantity {
     height: 30px;
     width: 30px;
     text-align: center;
 }
 
-.removeIcon{
+.removeIcon {
     font-size: 1.4rem;
     font-weight: bold;
     margin: 0 135px;
 
 }
 
-.removeIcon:hover{
+.removeIcon:hover {
     font-size: 180%;
     cursor: pointer;
     color: red;
 }
-
 
 
 .summaryPrice {
@@ -250,36 +250,119 @@ img.special-image {
 
 }
 
-.totalPrice{
-    font-size:2rem;
+.totalPrice {
+    font-size: 2rem;
     font-weight: bold;
     padding: 20px;
     text-align: right;
 }
 
-.totalAmount{
-    font-size:2rem;
+.totalAmount {
+    font-size: 2rem;
     font-weight: bold;
     padding: 20px;
 }
 
-.buttonNextStep{
-    background-color: #004085;
+.buttonNextStep {
+    background-color: #3451ff;
     color: black;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: bold;
+    width: 150px;
+    border-radius: 10px;
+    border-color: #3451ff;
 
 }
 
-.nextStep{
-    margin: 0 0 20px 800px;
+.nextStep {
+    margin: 0 0 20px 1230px;
     text-align: center;
 }
 
-.addQuantity:hover{
+.nextStep1, .nextStep2 {
+    margin: 0 90px 50px 0px;
+    text-align: center;
+}
+
+
+
+.addQuantity:hover {
     cursor: pointer;
 }
 
-.oddQuantity:hover{
+.oddQuantity:hover {
     cursor: pointer;
+}
+
+
+.formData {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+}
+
+.dataUser {
+    display: flex;
+    margin: 10px;
+    padding: 20px;
+}
+
+.personalData, .billingAddress, .shippingAddress, .billingAddress, .creditCard, .paypalForm {
+    margin: 20px 30px 50px 30px;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid #7f7f82;
+}
+
+.titleOf {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin: 0 0 15px 0;
+}
+
+
+.labelName {
+    font-weight: bold;
+    margin: 10px 0 5px 0;
+}
+
+.inputData {
+    text-align: center;
+    width: auto;
+}
+
+
+.dataUser input, .dataPayment input {
+    border-color: #3451ff;
+    border-radius: 10px;
+}
+
+.paymentOption {
+    height: 40px;
+    border-radius: 5px;
+    margin: 15px;
+}
+
+.paymentMethods {
+    display: block;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+}
+
+.paymentData {
+    text-align: center;
+    display:inline-block;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+}
+.dataPayment{
+    text-align: center;
+}
+
+.cardFooter{
+    text-align: center;
 }
