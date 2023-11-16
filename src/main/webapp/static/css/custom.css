@@ -265,9 +265,8 @@ img.special-image {
 
 .buttonNextStep {
     background-color: #3451ff;
-    color: black;
+    color: white;
     font-size: 1.2rem;
-    font-weight: bold;
     width: 150px;
     border-radius: 10px;
     border-color: #3451ff;
@@ -277,11 +276,13 @@ img.special-image {
 .nextStep {
     margin: 0 0 20px 1230px;
     text-align: center;
+
 }
 
 .nextStep1, .nextStep2 {
     margin: 0 90px 50px 0px;
     text-align: center;
+
 }
 
 
@@ -365,4 +366,15 @@ img.special-image {
 
 .cardFooter{
     text-align: center;
+}
+
+.btn-success{
+    background-color: #3451ff;
+    border-color: #3451ff;
+}
+
+.btn-success:hover{
+    background-color: #3451ff;
+    border-color: #3451ff;
+
 }

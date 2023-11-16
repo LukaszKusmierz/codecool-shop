@@ -12,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -35,18 +36,22 @@ public class JsonServletCart extends HttpServlet {
         int productId = request.getProductId();
         Product product = productDataStore.find(productId);
 
-        if(cartDao.getAll().contains(product)){
-            product.setQuantityOfSell(product.getQuantityOfSell()+1);
-        }else{
+        if (cartDao.getAll().contains(product)) {
+            product.setQuantityOfSell(product.getQuantityOfSell() + 1);
+        } else {
             product.setQuantityOfSell(1);
+            cartDao.add(product);
         }
-        cartDao.add(product);
+        int numberItems = 0;
+        for (Product item : cartDao.getAll()) {
+            numberItems += item.getQuantityOfSell();
+        }
+
         GsonClass gsonClass = new GsonClass();
         gsonClass.convertToGson();
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        int numberOfItems = cartDao.getAll().size();
-        resp.setHeader("number", String.valueOf(numberOfItems));
+        resp.setHeader("number", String.valueOf(numberItems));
         PrintWriter out = resp.getWriter();
         out.println(gsonClass.convertToGson().toJson(cartDao));
     }
@@ -55,8 +60,10 @@ public class JsonServletCart extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         CartDao cartDao = CartDaoMem.getInstance();
-        int itemId = Integer.parseInt(req.getParameter("itemId"));
-        cartDao.remove(itemId);
+        int productId = Integer.parseInt(req.getParameter("productId"));
+        cartDao.remove(productId);
+
+
         GsonClass gsonClass = new GsonClass();
         gsonClass.convertToGson();
         resp.setContentType("application/json");

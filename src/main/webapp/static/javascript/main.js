@@ -226,10 +226,7 @@ function fetchAddProductToCart(productId) {
                 const numberHeader = response.headers.get('number');
                 document.querySelector('.amountItem-info').textContent = numberHeader
                 console.log(response.json())
-                return response.json();
-            })
-            .then(() => {
-                window.location.reload();
+                // return response.json();
             })
             .catch(error => {
                 console.log(error)
@@ -241,10 +238,11 @@ function fetchAddProductToCart(productId) {
 
 function removeLineItem(event) {
     const button = event.target;
-    const itemId = button.getAttribute('data-cartItem-id');
+    // const itemId = button.getAttribute('data-cartItem-id');
+    const productId = button.getAttribute('data-product-id');
     event.preventDefault();
-    if (itemId) {
-        fetchDeleteProductFromCart(`?itemId=${itemId}`)
+    if (productId) {
+        fetchDeleteProductFromCart(`?productId=${productId}`)
     }
 }
 
@@ -267,7 +265,7 @@ function fetchDeleteProductFromCart(route) {
     }
 }
 
-function fetchAddQuantityToCart(productId) {
+function fetchAddQuantityToCart(productId, operation) {
     try {
         console.log("try to fetch: ")
         const toFetch = `http://localhost:8080/cart/quantity`
@@ -279,15 +277,17 @@ function fetchAddQuantityToCart(productId) {
                 'Content-Type': 'application/json',
                 'Header': 'number'
             },
-            body: JSON.stringify({productId: parseInt(productId)})
+            body: JSON.stringify({productId: parseInt(productId), operation: operation })
         })
             .then((response) => {
-                const numberHeader = response.headers.get('number');
-                document.querySelector('.amountItem-info').textContent = numberHeader;
-                console.log(response.json());
-            }).then(() => {
-            window.location.reload()
-        })
+                if (!response.ok) {
+                    throw new Error(`Error Status: ${response.status}`);
+                }
+                document.querySelector('.amountItem-info').textContent = response.headers.get('number');
+            })
+            .then(() => {
+                    window.location.reload()
+            })
             .then((data) => console.log("data " + data))
             .catch(error => {
                 console.log(error)
@@ -308,20 +308,22 @@ function addQuantityFunction(event) {
             subtotalValue(itemId, number)
         }
     })
-    fetchAddQuantityToCart(productId);
+    fetchAddQuantityToCart(productId,"add");
 }
 
 function oddQuantityFunction(event) {
     const button = event.target;
     const itemId = button.getAttribute('data-cartItem-id');
+    const productId = button.getAttribute('data-product-id');
     event.preventDefault();
     actualNumbers.forEach(number => {
         if (number.value > 0) {
             if (number.getAttribute('data-cartItem-id') === itemId) {
                 number.value = parseInt(number.value) - 1;
+                fetchAddQuantityToCart(productId,"odd");
                 subtotalValue(itemId, number)
                 if (parseInt(number.value) === 0) {
-                    fetchDeleteProductFromCart(`?itemId=${itemId}`)
+                    fetchDeleteProductFromCart(`?productId=${productId}`)
                 }
             }
         }

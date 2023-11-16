@@ -22,10 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.thymeleaf.web.IWebExchange;
 import org.thymeleaf.web.servlet.JakartaServletWebApplication;
-
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
 @WebServlet(urlPatterns = {"/cart"})
 public class CartController extends HttpServlet {
@@ -37,12 +34,16 @@ public class CartController extends HttpServlet {
         IWebExchange webExchange = JakartaServletWebApplication.buildApplication(getServletContext())
                 .buildExchange(req, resp);
         WebContext context = new WebContext(webExchange);
-
-        Set<Product> productsInCart = new HashSet<>(cartDao.getAll());
-        context.setVariable("numberItems", cartDao.getAll().size());
-        context.setVariable("totalPrice",cartDao.getTotalPrice(cartDao.getAll()));
+        int numberItems = 0;
+        double totalPrice = 0;
+        for (Product product : cartDao.getAll()) {
+            numberItems += product.getQuantityOfSell();
+            totalPrice += product.subTotal();
+        }
+        context.setVariable("numberItems", numberItems);
+        context.setVariable("totalPrice", totalPrice);
         context.setVariable("ctxPath", req.getContextPath());
-        context.setVariable("cartItems", productsInCart);
+        context.setVariable("cartItems", cartDao.getAll());
         engine.process("product/shoppingCart.html", context, resp.getWriter());
     }
 }

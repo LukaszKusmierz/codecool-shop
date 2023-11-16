@@ -46,10 +46,10 @@ public class Product extends BaseModel {
         return quantityOfSell;
     }
 
-    public BigDecimal subTotal() {
+    public double subTotal() {
         BigDecimal productPrice = defaultPrice.multiply(BigDecimal.valueOf(quantityOfSell));
         productPrice.setScale(2, BigDecimal.ROUND_CEILING);
-        return productPrice;
+        return productPrice.doubleValue();
     }
 
     public void setQuantityOfSell(int quantityOfSell) {

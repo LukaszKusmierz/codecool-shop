@@ -36,16 +36,25 @@ public class JsonServletItem extends HttpServlet {
         int productId = request.getProductId();
         Product product = productDataStore.find(productId);
 
-        if (cartDao.getAll().contains(product)) {
-            product.setQuantityOfSell(product.getQuantityOfSell() + 1);
+        if("add".equals(request.getOperation())){
+            if (cartDao.getAll().contains(product)) {
+                product.setQuantityOfSell(product.getQuantityOfSell() + 1);
+            }
+        } else if ("odd".equals(request.getOperation())) {
+            if (cartDao.getAll().contains(product)) {
+                product.setQuantityOfSell(product.getQuantityOfSell() - 1);
+            }
         }
-        cartDao.add(product);
+        int numberItems=0;
+        for (Product item : cartDao.getAll()) {
+            numberItems += item.getQuantityOfSell();
+        }
+
         GsonClass gsonClass = new GsonClass();
         gsonClass.convertToGson();
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
-        int numberOfItems = cartDao.getAll().size();
-        resp.setHeader("number", String.valueOf(numberOfItems));
+        resp.setHeader("number", String.valueOf(numberItems));
         PrintWriter out = resp.getWriter();
         out.println(gsonClass.convertToGson().toJson(cartDao));
     }

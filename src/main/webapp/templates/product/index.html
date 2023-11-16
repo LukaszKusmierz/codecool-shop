@@ -10,7 +10,7 @@
 
 <a id="menu_basket" class="basket" href="http://localhost:8080/cart">
     <img id="basket_id" class="special-image" src="/static/img/cart_bag_1.png"/></a>
-<span id="numberDisplay" class="amountItem amountItem-info" th:text="${numberOfItems}" ></span>
+<span id="numberDisplay" class="amountItem amountItem-info" th:text="${numberItems}" ></span>
 
 <div th:replace="filters.html :: filters"></div>
 <div th:replace="displayProducts.html :: displayProducts"></div>

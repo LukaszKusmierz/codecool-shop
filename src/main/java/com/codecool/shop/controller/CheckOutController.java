@@ -28,12 +28,15 @@ public class CheckOutController extends HttpServlet {
         IWebExchange webExchange = JakartaServletWebApplication.buildApplication(getServletContext())
                 .buildExchange(req, resp);
         WebContext context = new WebContext(webExchange);
+        int numberItems = 0;
+        for (Product product : cartDao.getAll()) {
+            numberItems += product.getQuantityOfSell();
+        }
 
-        Set<Product> productsInCart = new HashSet<>(cartDao.getAll());
-        context.setVariable("numberItems", cartDao.getAll().size());
+        context.setVariable("numberItems", numberItems);
         context.setVariable("totalPrice",cartDao.getTotalPrice(cartDao.getAll()));
         context.setVariable("ctxPath", req.getContextPath());
-        context.setVariable("cartItems", productsInCart);
+        context.setVariable("cartItems", cartDao.getAll());
         engine.process("product/checkoutCart.html", context, resp.getWriter());
     }
 }

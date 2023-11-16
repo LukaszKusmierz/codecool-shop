@@ -29,11 +29,15 @@ public class PaymentController extends HttpServlet {
                 .buildExchange(req, resp);
         WebContext context = new WebContext(webExchange);
 
-        Set<Product> productsInCart = new HashSet<>(cartDao.getAll());
-        context.setVariable("numberItems", cartDao.getAll().size());
-        context.setVariable("totalPrice",cartDao.getTotalPrice(cartDao.getAll()));
-        context.setVariable("ctxPath", req.getContextPath());
-        context.setVariable("cartItems", productsInCart);
-        engine.process("product/payment.html", context, resp.getWriter());
+//        int numberItems = 0;
+//        for (Product product : cartDao.getAll()) {
+//            numberItems += product.getQuantityOfSell();
+//        }
+
+//        context.setVariable("numberItems", numberItems);
+//        context.setVariable("totalPrice",cartDao.getTotalPrice(cartDao.getAll()));
+//        context.setVariable("ctxPath", req.getContextPath());
+//        context.setVariable("cartItems", cartDao.getAll());
+//        engine.process("product/payment.html", context, resp.getWriter());
     }
 }

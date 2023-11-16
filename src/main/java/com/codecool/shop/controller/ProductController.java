@@ -8,6 +8,7 @@ import com.codecool.shop.dao.implementation.CartDaoMem;
 import com.codecool.shop.dao.implementation.ProductCategoryDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.dao.implementation.SupplierDaoMem;
+import com.codecool.shop.model.Product;
 import com.codecool.shop.service.ProductService;
 import com.codecool.shop.config.TemplateEngineUtil;
 import org.thymeleaf.TemplateEngine;
@@ -41,8 +42,11 @@ public class ProductController extends HttpServlet {
             categoryId =Integer.parseInt(req.getParameter("categoryId"));
         }
 
-        int numberOfItems = cartDao.getAll().size();
-        req.setAttribute("numberOfItems", numberOfItems);
+        int numberItems = 0;
+        for (Product product : cartDao.getAll()) {
+            numberItems += product.getQuantityOfSell();
+        }
+        req.setAttribute("numberItems", numberItems);
         context.setVariable("ctxPath", req.getContextPath());
         context.setVariable("category", productService.getProductCategory(categoryId));
         context.setVariable("products", productService.getProductsForCategory(categoryId));
