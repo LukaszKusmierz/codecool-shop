@@ -12,12 +12,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "JsonServletCart", urlPatterns = "/cart/items", loadOnStartup = 3)
-public class JsonServletCart extends HttpServlet {
+@WebServlet(name = "JsonServletItem", urlPatterns = "/cart/quantity", loadOnStartup = 3)
+public class JsonServletItem extends HttpServlet {
     private final Gson gson = new Gson();
 
     @Override
@@ -35,10 +36,8 @@ public class JsonServletCart extends HttpServlet {
         int productId = request.getProductId();
         Product product = productDataStore.find(productId);
 
-        if(cartDao.getAll().contains(product)){
-            product.setQuantityOfSell(product.getQuantityOfSell()+1);
-        }else{
-            product.setQuantityOfSell(1);
+        if (cartDao.getAll().contains(product)) {
+            product.setQuantityOfSell(product.getQuantityOfSell() + 1);
         }
         cartDao.add(product);
         GsonClass gsonClass = new GsonClass();
@@ -49,34 +48,5 @@ public class JsonServletCart extends HttpServlet {
         resp.setHeader("number", String.valueOf(numberOfItems));
         PrintWriter out = resp.getWriter();
         out.println(gsonClass.convertToGson().toJson(cartDao));
-    }
-
-
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        CartDao cartDao = CartDaoMem.getInstance();
-        int itemId = Integer.parseInt(req.getParameter("itemId"));
-        cartDao.remove(itemId);
-        GsonClass gsonClass = new GsonClass();
-        gsonClass.convertToGson();
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-        PrintWriter out = resp.getWriter();
-        out.println(gsonClass.convertToGson().toJson(cartDao));
-    }
-
-
-    @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        CartDao cartDao = CartDaoMem.getInstance();
-        GsonClass gsonClass = new GsonClass();
-        gsonClass.convertToGson();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        int numberOfItems = cartDao.getAll().size();
-        response.setHeader("Cache-Control", "no-store, must-revalidate");
-        response.setHeader("number", String.valueOf(numberOfItems));
-        PrintWriter out = response.getWriter();
-        out.println(gsonClass.convertToGson().toJson(numberOfItems));
     }
 }

@@ -36,7 +36,7 @@ public class ProductDaoMem implements ProductDao {
 
     @Override
     public Product find(int id) {
-        return data.stream().filter(t -> t.getId() == id).findFirst().orElse(null);
+        return data.stream().filter(t -> t.getProductId() == id).findFirst().orElse(null);
     }
 
     @Override

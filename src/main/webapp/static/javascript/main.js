@@ -1,7 +1,6 @@
 const selectElementCategory = document.getElementById('category');
 const selectElementSupplier = document.getElementById('supplier');
 const addCartButtons = document.querySelectorAll('a[data-product-id]');
-const removeButtons = document.querySelectorAll('.removeIcon');
 const elementsWithIdRemove = document.querySelectorAll('[id=idRemove]')
 const actualNumbers = document.querySelectorAll(`.numberOfQuantity[data-cartItem-id]`);
 const addQuantityButtons = document.querySelectorAll(`.addQuantity`);
@@ -27,7 +26,6 @@ elementsWithIdRemove.forEach(element => {
 selectElementCategory.addEventListener("change", optionCategory);
 selectElementSupplier.addEventListener("change", optionSupplier);
 
-
 function fetchProductsByCategory(route) {
     try {
         const toFetch = `http://localhost:8080/products/get${route}`
@@ -45,7 +43,6 @@ function fetchProductsByCategory(route) {
         console.log(error)
     }
 }
-
 
 function showDefaultTextInOption(data) {
     data.value = '--Please choose--';
@@ -74,7 +71,6 @@ function showProductsByCategory(products) {
         const cardProducts = document.createElement('div');
         cardProducts.classList.add('col', 'col-sm-12', 'col-md-6', 'col-lg-4');
         cardProducts.innerHTML = `
-            
              <div class="card">
                 <img src="/static/img/product_${prod.id}.jpg">
                 <div class="card-header">
@@ -92,7 +88,6 @@ function showProductsByCategory(products) {
             </div>
         `;
         productContainer.appendChild(cardProducts);
-
     });
     container.append(categoryNameContainer);
     container.appendChild(productContainer);
@@ -119,6 +114,7 @@ function fetchProductsBySupplier(route) {
             }
         })
             .then((response) => response.json())
+
             .then((data) => showProductsBySupplier(data))
             .catch(error => {
                 console.log(error)
@@ -165,17 +161,14 @@ function showProductsBySupplier(products) {
     updateEventListeners();
 }
 
-
 function addProductToCart(event) {
     const button = event.target;
     const productId = button.getAttribute('data-product-id');
     event.preventDefault();
     if (productId) {
         fetchAddProductToCart(productId)
-        // changeNumber();
     }
 }
-
 
 function updateEventListeners() {
     const addCartButtons = document.querySelectorAll('a[data-product-id]');
@@ -183,15 +176,6 @@ function updateEventListeners() {
         button.addEventListener("click", addProductToCart);
     });
 }
-
-// function getNumberOfItem() {
-//     if(menu){
-//         console.log("menu")
-//         fetchNumberOfItemInCart()
-//     }
-//
-// }
-// fetchNumberOfItemInCart();
 
 // function fetchNumberOfItemInCart() {
 //     try {
@@ -225,6 +209,7 @@ function updateEventListeners() {
 function fetchAddProductToCart(productId) {
     try {
         console.log("try to fetch: ")
+        console.log(productId)
         const toFetch = `http://localhost:8080/cart/items`
         console.log(" fetch:  " + toFetch)
         fetch(toFetch, {
@@ -234,15 +219,18 @@ function fetchAddProductToCart(productId) {
                 'Content-Type': 'application/json',
                 'Header': 'number'
             },
+
             body: JSON.stringify({productId: parseInt(productId)})
         })
             .then((response) => {
                 const numberHeader = response.headers.get('number');
-                console.log("Number header value: " + numberHeader);
                 document.querySelector('.amountItem-info').textContent = numberHeader
+                console.log(response.json())
                 return response.json();
             })
-            .then((data) => console.log("data " + data))
+            .then(() => {
+                window.location.reload();
+            })
             .catch(error => {
                 console.log(error)
             })
@@ -250,7 +238,6 @@ function fetchAddProductToCart(productId) {
         console.log(error)
     }
 }
-
 
 function removeLineItem(event) {
     const button = event.target;
@@ -280,10 +267,40 @@ function fetchDeleteProductFromCart(route) {
     }
 }
 
+function fetchAddQuantityToCart(productId) {
+    try {
+        console.log("try to fetch: ")
+        const toFetch = `http://localhost:8080/cart/quantity`
+        console.log(" fetch:  " + toFetch)
+        fetch(toFetch, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Header': 'number'
+            },
+            body: JSON.stringify({productId: parseInt(productId)})
+        })
+            .then((response) => {
+                const numberHeader = response.headers.get('number');
+                document.querySelector('.amountItem-info').textContent = numberHeader;
+                console.log(response.json());
+            }).then(() => {
+            window.location.reload()
+        })
+            .then((data) => console.log("data " + data))
+            .catch(error => {
+                console.log(error)
+            })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 function addQuantityFunction(event) {
     const button = event.target;
     const itemId = button.getAttribute('data-cartItem-id');
-    console.log(itemId)
+    const productId = button.getAttribute('data-product-id');
     event.preventDefault();
     actualNumbers.forEach(number => {
         if (number.getAttribute('data-cartItem-id') === itemId) {
@@ -291,6 +308,7 @@ function addQuantityFunction(event) {
             subtotalValue(itemId, number)
         }
     })
+    fetchAddQuantityToCart(productId);
 }
 
 function oddQuantityFunction(event) {
@@ -310,23 +328,17 @@ function oddQuantityFunction(event) {
     })
 }
 
-
-function subtotalValue(itemId, actualQuantityNumber){
+function subtotalValue(itemId, actualQuantityNumber) {
     const subValues = document.querySelectorAll(`.itemPriceSum`);
     const itemValues = document.querySelectorAll(`.itemPrice`);
     subValues.forEach(valueNumber => {
         itemValues.forEach(itemNumber => {
-
             if ((valueNumber.getAttribute('data-cartItem-id') === itemId && itemNumber.getAttribute('data-cartItem-id') === itemId)) {
                 const newValue = parseFloat(itemNumber.innerHTML) * (parseFloat(actualQuantityNumber.value));
-                console.log(newValue.toFixed(2))
                 valueNumber.innerHTML = newValue.toFixed(2);
-                console.log(valueNumber.innerHTML)
             }
         })
     })
-
-
 }
 
 

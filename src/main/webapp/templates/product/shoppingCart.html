@@ -37,7 +37,7 @@
             <div class="cartBlockItem" th:data-cartItem-id="${item.id}">
                 <div class="cartItemValuePhoto">
                     <img class="imageItemInCart" src="http://placehold.it/400x250/000/fff"
-                         th:src="@{${'/static/img/product_'+item.id+'.jpg'}}">
+                         th:src="@{${'/static/img/product_'+item.productId+'.jpg'}}">
                 </div>
                 <div class="cartItemValue">
                     <h5 class="itemName" th:text="${item.name}">Name</h5>
@@ -49,9 +49,9 @@
                     <span class="itemPriceSum" th:data-cartItem-id="${item.id}" th:text="${item.subTotal()}">Price2</span>
                 </div>
                 <div class="cartItemValueInput">
-                    <span id="odd" class="oddQuantity" th:data-cartItem-id="${item.id}">-</span>
-                    <input class="numberOfQuantity" th:data-cartItem-id="${item.id}" th:value="${quantity}">
-                    <span id="add" class="addQuantity" th:data-cartItem-id="${item.id}">+</span>
+                    <span id="odd" class="oddQuantity" th:data-product-id="${item.productId}"  th:data-cartItem-id="${item.id}">-</span>
+                    <input class="numberOfQuantity" th:data-cartItem-id="${item.id}" th:value="${item.getQuantityOfSell()}">
+                    <span id="add" class="addQuantity" th:data-product-id="${item.productId}"  th:data-cartItem-id="${item.id}">+</span>
                     <div class="cartItemRemove"></div>
                 </div>
                 <div id="idRemove" class="cartItemValue">

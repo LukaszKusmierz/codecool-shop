@@ -5,19 +5,29 @@ import java.util.Currency;
 
 
 public class Product extends BaseModel {
-
+    private int productId;
     public BigDecimal defaultPrice;
     public Currency defaultCurrency;
     private ProductCategory productCategory;
     private Supplier supplier;
-    private int quantityOfSell =1;
+    private int quantityOfSell;
 
 
-    public Product(int id, String name, BigDecimal defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier) {
-        super(id,name, description);
+    public Product(int productId, String name, BigDecimal defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier, int quantityOfSell) {
+        super(name, description);
+        this.productId = productId;
         this.setPrice(defaultPrice, currencyString);
         this.setSupplier(supplier);
         this.setProductCategory(productCategory);
+        this.quantityOfSell = quantityOfSell;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public BigDecimal getDefaultPrice() {
@@ -36,7 +46,7 @@ public class Product extends BaseModel {
         return quantityOfSell;
     }
 
-    public BigDecimal subTotal(){
+    public BigDecimal subTotal() {
         BigDecimal productPrice = defaultPrice.multiply(BigDecimal.valueOf(quantityOfSell));
         productPrice.setScale(2, BigDecimal.ROUND_CEILING);
         return productPrice;
@@ -79,17 +89,20 @@ public class Product extends BaseModel {
 
     @Override
     public String toString() {
-        return String.format("id: %1$d, " +
+        return String.format(
+                "productId: %1$d, " +
                         "name: %2$s, " +
                         "defaultPrice: %3$f, " +
                         "defaultCurrency: %4$s, " +
                         "productCategory: %5$s, " +
-                        "supplier: %6$s",
-                this.id,
+                        "supplier: %6$s, " +
+                        "quantityOfSell: %7$d",
+                this.productId,
                 this.name,
                 this.defaultPrice,
                 this.defaultCurrency.toString(),
                 this.productCategory.getName(),
-                this.supplier.getName());
+                this.supplier.getName(),
+                this.quantityOfSell);
     }
 }

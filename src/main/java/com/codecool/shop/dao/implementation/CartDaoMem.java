@@ -11,6 +11,8 @@ import static java.math.BigDecimal.ROUND_CEILING;
 public class CartDaoMem implements CartDao {
 
     public List<Product> data = new ArrayList<>();
+
+
     private static CartDaoMem instance = null;
 
     private CartDaoMem() {
@@ -24,14 +26,14 @@ public class CartDaoMem implements CartDao {
     }
 
     @Override
-    public void add(Product cartItem) {
-        cartItem.setId(data.size()+1);
-        data.add(cartItem);
+    public void add(Product product) {
+        product.setId(data.size()+1);
+        data.add(product);
     }
 
     @Override
     public Product find(int id) {
-        return data.stream().filter(t -> t.getId()== id).findFirst().orElse(null);
+        return data.stream().filter(t -> t.getProductId()== id).findFirst().orElse(null);
     }
 
     @Override
