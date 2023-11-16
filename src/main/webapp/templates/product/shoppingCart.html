@@ -49,9 +49,9 @@
                     <span class="itemPriceSum" th:text="${item.subTotal()}">Price2</span>
                 </div>
                 <div class="cartItemValueInput">
-                    <a href class="oddQuantity">-</a>
-                    <input class="numberOfQuantity" th:value="${quantity}">
-                    <a href class="addQuantity">+</a>
+                    <span class="oddQuantity" th:data-cartItem-id="${item.id}">-</span>
+                    <input class="numberOfQuantity" th:data-cartItem-id="${item.id}" th:value="${quantity}">
+                    <span  class="addQuantity" th:data-cartItem-id="${item.id}">+</span>
                     <div class="cartItemRemove"></div>
                 </div>
                 <div id="idRemove" class="cartItemValue">

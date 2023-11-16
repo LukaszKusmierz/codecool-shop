@@ -3,25 +3,20 @@ const selectElementSupplier = document.getElementById('supplier');
 const addCartButtons = document.querySelectorAll('a[data-product-id]');
 const removeButtons = document.querySelectorAll('.removeIcon');
 const elementsWithIdRemove = document.querySelectorAll('[id=idRemove]')
+const actualNumbers = document.querySelectorAll(`.numberOfQuantity[data-cartItem-id]`);
+// const addButtons =  document.querySelectorAll(`.addQuantity[data-cartItem-id]`);
+
 addCartButtons.forEach(button => {
     button.addEventListener("click", addProductToCart);
-
 });
 
 elementsWithIdRemove.forEach(element => {
     element.addEventListener("click", removeLineItem);
 });
-// document.getElementById(`idRemove`).addEventListener("click",removeLineItem)
-// removeButtons.forEach(button => {
-//     button.addEventListener("onclick", removeLineItem)
-//     console.log("klklk")
-// })
 
 selectElementCategory.addEventListener("change", optionCategory);
 selectElementSupplier.addEventListener("change", optionSupplier);
 
-
-// menu.addEventListener("click", getNumberOfItem);
 
 function fetchProductsByCategory(route) {
     try {
@@ -283,11 +278,32 @@ function fetchDeleteProductFromCart(route) {
 }
 
 
-// function changeNumber() {
-//     const numberOfItemInCart = document.querySelector(`.amountItem-info`);
-//     let value = parseInt(numberOfItemInCart.innerHTML);
-//     numberOfItemInCart.innerHTML = value + 1;
-//
-// }
+document.addEventListener("DOMContentLoaded", function () {
+    // Your code here
+    const actualNumbers = document.querySelectorAll(`.numberOfQuantity[data-cartItem-id]`);
+    const addButtons = document.querySelectorAll(`.addQuantity[data-cartItem-id]`);
+    addButtons.forEach(element => {
+        element.addEventListener("click", evt =>
+            console.log("klknieto przycisk")
+        )
+    });
+});
+
+
+// addButtons.forEach(element => {
+//     element.addEventListener("click", addQuantity);
+// });
+
+function addQuantity() {
+    console.log("add")
+    actualNumbers.forEach(number => {
+        console.log(number.value)
+        console.log(number)
+        number.value = parseInt(number.value) + 1;
+        console.log(number.value)
+    })
+
+}
+
 
 

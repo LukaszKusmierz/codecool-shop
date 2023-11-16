@@ -52,7 +52,6 @@ public class JsonServletCart extends HttpServlet {
         CartDao cartDao = CartDaoMem.getInstance();
         int itemId = Integer.parseInt(req.getParameter("itemId"));
         cartDao.remove(itemId);
-
         GsonClass gsonClass = new GsonClass();
         gsonClass.convertToGson();
         resp.setContentType("application/json");
@@ -64,7 +63,6 @@ public class JsonServletCart extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//        ProductDao productDataStore = ProductDaoMem.getInstance();
         CartDao cartDao = CartDaoMem.getInstance();
         GsonClass gsonClass = new GsonClass();
         gsonClass.convertToGson();

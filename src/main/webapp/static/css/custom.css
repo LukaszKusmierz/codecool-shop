@@ -156,20 +156,18 @@ img.special-image {
     margin: 20px 0 40px 250px;
 }
 
-a.oddQuantity{
+.oddQuantity{
     height: 30px;
     width: 30px;
     padding: 10px;
     margin: 5px;
-    text-decoration: transparent;
 }
 
-a.oddQuantity{
+.addQuantity{
     height: 30px;
     width: 30px;
     padding: 10px;
     margin: 5px;
-    text-decoration: transparent;
 }{
 
 }
@@ -219,7 +217,7 @@ a.oddQuantity{
 
 .cartItemValueInput{
     font-size: 1.2rem;
-    padding: 5px 50px 5px 0px;
+
 
 
 }
@@ -275,4 +273,14 @@ a.oddQuantity{
 .nextStep{
     margin: 0 0 20px 800px;
     text-align: center;
+}
+
+.addQuantity:hover{
+    font-size: 170%;
+    cursor: pointer;
+}
+
+.oddQuantity:hover{
+    font-size: 170%;
+    cursor: pointer;
 }

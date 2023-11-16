@@ -7,7 +7,10 @@ public class Cart {
 
     private List<Product> productsInCart;
 
+    private int quantity;
+
     public Cart() {
         this.productsInCart = new ArrayList<>();
+
     }
 }
