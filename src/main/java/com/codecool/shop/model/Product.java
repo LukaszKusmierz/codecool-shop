@@ -48,9 +48,15 @@ public class Product extends BaseModel {
 
     public double subTotal() {
         BigDecimal productPrice = defaultPrice.multiply(BigDecimal.valueOf(quantityOfSell));
-        productPrice.setScale(2, BigDecimal.ROUND_CEILING);
+        productPrice = productPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
         return productPrice.doubleValue();
     }
+    public BigDecimal subTotal1() {
+        BigDecimal productPrice = defaultPrice.multiply(BigDecimal.valueOf(quantityOfSell));
+        productPrice = productPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+        return productPrice;
+    }
+
 
     public void setQuantityOfSell(int quantityOfSell) {
         this.quantityOfSell = quantityOfSell;

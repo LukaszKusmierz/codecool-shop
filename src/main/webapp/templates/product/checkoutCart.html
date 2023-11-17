@@ -13,7 +13,6 @@
 
 
 <section id="contentCart" class="cart">
-
     <div class="cartName">Checkout cart
         <span class="backMainPage">
         <a id="mainPage" href="http://localhost:8080/">
@@ -21,53 +20,74 @@
         </a> </span>
     </div>
 
-    <form class="formData">
+    <form class="formData" id="formData">
         <div class="dataUser">
             <div class="personalData">
                 <label class="titleOf"> PERSONAL INFORMATION</label><br>
-                <label class="labelName" for="name"> NAME</label><br>
-                <input class="inputData" type="text" id="name" name="name" required><br>
-                <label class="labelName" for="lastName">LAST NAME</label><br>
-                <input class="inputData"  type="text" id="lastName" name="lastName" required><br>
-                <label class="labelName" for="email"> EMAIL</label><br>
-                <input class="inputData"  type="text" id="email" name="email" required><br>
+                <div class="divError">
+                    <label class="labelName" id="nameId" for="name"> NAME</label><br>
+                    <input class="inputData" type="text" id="name" name="name" placeholder="Tom"
+                           title="Name must be min. 5 characters" required><br>
+                    <small>Error message</small><br>
+                </div>
+                <div class="divError">
+                    <label class="labelName" id="lastNmeId" for="lastName">LAST NAME</label><br>
+                    <input class="inputData" type="text" id="lastName"
+                           name="lastName" minlength="7" placeholder="Novak"
+                           title="LastName must be min. 7 characters" required><br>
+                    <small>Error message</small><br>
+                </div>
+
+                <div class="divError">
+                    <label class="labelName" id="emailId" for="email"> EMAIL</label><br>
+                    <input class="inputData" type="email" id="email" name="email" placeholder="tomnovak@gmail.com"
+                           required><br>
+                    <small>Error message</small><br>
+                </div>
                 <label class="labelName" for="phone"> PHONE NUMBER</label><br>
-                <input class="inputData"  type="text" id="phone" name="phone" required><br>
+                <input class="inputData" type="number" id="phone" name="phone" placeholder="48358695123" required><br>
+
             </div>
-                <div class="billingAddress">
-                    <label class="titleOf"> BILLING ADDRESS</label><br>
-                    <label class="labelName" for="country"> COUNTRY</label><br>
-                    <input class="inputData"  type="text" id="country" name="country" required><br>
-                    <label class="labelName" for="city"> CITY</label><br>
-                    <input class="inputData"  type="text" id="city" name="city" required><br>
-                    <label class="labelName" for="zipcode"> ZIPCODE</label><br>
-                    <input class="inputData"  type="text" id="zipcode" name="zipcode" required><br>
-                    <label class="labelName" for="addressBilling"> ADDRESS</label><br>
-                    <input class="inputData"  type="text" id="addressBilling" name="addressBilling" required><br>
-                </div>
-                <div class="shippingAddress">
-                    <label class="titleOf"> SHIPPING ADDRESS</label><br>
-                    <label class="labelName" for="countryShipping"> COUNTRY</label><br>
-                    <input class="inputData"  type="text" id="countryShipping" name="countryShipping" required><br>
-                    <label class="labelName" for="cityShipping"> CITY</label><br>
-                    <input class="inputData"  type="text" id="cityShipping" name="cityShipping"  required><br>
-                    <label class="labelName" for="zipcodeShipping"> ZIPCODE</label><br>
-                    <input class="inputData"  type="text" id="zipcodeShipping" name="zipcodeShipping" required><br>
-                    <label class="labelName" for="addressBillingShipping"> ADDRESS</label><br>
-                    <input class="inputData"  type="text" id="addressBillingShipping" name="addressBillingShipping" required><br>
-                </div>
+            <div class="billingAddress">
+                <label class="titleOf"> BILLING ADDRESS</label><br>
+                <label class="labelName" for="country"> COUNTRY</label><br>
+                <input class="inputData" type="text" id="country" name="country" placeholder="Poland" required><br>
+                <label class="labelName" for="city"> CITY</label><br>
+                <input class="inputData" type="text" id="city" name="city" placeholder="Warsaw" required><br>
+
+                <label class="labelName" for="zipcode"> ZIPCODE</label><br>
+                <input class="inputData" type="number" id="zipcode" name="zipcode"
+                       title="Zipcode ex. 30255, only use numbers" placeholder="30999" required><br>
+
+                <label class="labelName" for="addressBilling"> ADDRESS</label><br>
+                <input class="inputData" id="addressBilling" name="addressBilling" placeholder="Old Street 70" required><br>
+            </div>
+            <div class="shippingAddress">
+                <label class="titleOf"> SHIPPING ADDRESS</label><br>
+                <label class="labelName" for="countryShipping"> COUNTRY</label><br>
+                <input class="inputData" type="text" id="countryShipping" name="countryShipping" placeholder="Poland"
+                       required><br>
+                <label class="labelName" for="cityShipping"> CITY</label><br>
+                <input class="inputData" type="text" id="cityShipping" name="cityShipping" placeholder="Warsaw"
+                       required><br>
+                <label class="labelName" for="zipcodeShipping"> ZIPCODE</label><br>
+                <input class="inputData" type="number" id="zipcodeShipping" name="zipcodeShipping"
+                       title="Zipcode ex. 30255, only use numbers" placeholder="30999" required><br>
+
+                <label class="labelName" for="addressBillingShipping"> ADDRESS</label><br>
+                <input class="inputData" type="text" id="addressBillingShipping" name="addressBillingShipping"
+                       placeholder="Old Street 70" required><br>
+            </div>
+        </div>
+
+        <div class="nextStep1">
+            <a class="checkOut" href="http://localhost:8080/payment">
+                <button id="buttonCheckOut" class="buttonNextStep">Next Step</button>
+            </a>
         </div>
     </form>
 
-
-    <div class="nextStep1">
-        <a class="checkOut" href="http://localhost:8080/payment">
-            <button class="buttonNextStep"> Next Step</button>
-        </a>
-    </div>
-
 </section>
-
 
 <div th:replace="footer.html :: footer"></div>
 </body>

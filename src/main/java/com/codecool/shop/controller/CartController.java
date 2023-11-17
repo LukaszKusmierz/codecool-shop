@@ -23,6 +23,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.thymeleaf.web.IWebExchange;
 import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 @WebServlet(urlPatterns = {"/cart"})
 public class CartController extends HttpServlet {
@@ -41,7 +42,8 @@ public class CartController extends HttpServlet {
             totalPrice += product.subTotal();
         }
         context.setVariable("numberItems", numberItems);
-        context.setVariable("totalPrice", totalPrice);
+        context.setVariable("totalPrice", BigDecimal.valueOf(totalPrice).setScale(2, BigDecimal.ROUND_CEILING));
+//        context.setVariable("totalPrice", String.format("%.2f",totalPrice));
         context.setVariable("ctxPath", req.getContextPath());
         context.setVariable("cartItems", cartDao.getAll());
         engine.process("product/shoppingCart.html", context, resp.getWriter());

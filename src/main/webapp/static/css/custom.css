@@ -4,10 +4,10 @@
 
 .thumbnail {
     margin-bottom: 20px;
-    padding: 0px;
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    border-radius: 0px;
+    padding: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
 }
 
 .thumbnail img {
@@ -30,11 +30,11 @@
 }
 
 .item.list-group-item .thumbnail {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 .item.list-group-item .caption {
-    padding: 9px 9px 0px 9px;
+    padding: 9px 9px 0 9px;
 }
 
 .item.list-group-item:nth-of-type(odd) {
@@ -70,11 +70,11 @@ img {
 }
 
 #supplier {
-    margin: 0px 10px 10px 16px;
+    margin: 0 10px 10px 16px;
 }
 
 #category {
-    margin: 0px 10px 10px 10px;
+    margin: 0 10px 10px 10px;
 }
 
 #categoryLabel, #supplierLabel {
@@ -212,7 +212,7 @@ img.special-image {
 .cartItemValue {
     font-size: 1.2rem;
     /*padding: 5px 30px 5px 30px;*/
-    margin: 5px 50px 5px 0px;
+    margin: 5px 50px 5px 0;
     display: inline-flex;
     width: 200px;
 }
@@ -280,7 +280,7 @@ img.special-image {
 }
 
 .nextStep1, .nextStep2 {
-    margin: 0 90px 50px 0px;
+    margin: 0 90px 50px 0;
     text-align: center;
 
 }
@@ -298,14 +298,13 @@ img.special-image {
 
 .formData {
     text-align: center;
-    display: flex;
     flex-direction: row;
     justify-content: space-evenly;
 
 }
 
 .dataUser {
-    display: flex;
+    display: inline-flex;
     margin: 10px;
     padding: 20px;
 }
@@ -326,10 +325,10 @@ img.special-image {
 
 .labelName {
     font-weight: bold;
-    margin: 10px 0 5px 0;
+    margin: 25px 0 5px 0;
 }
 
-.inputData {
+.inputData{
     text-align: center;
     width: auto;
 }
@@ -340,6 +339,14 @@ img.special-image {
     border-radius: 10px;
 }
 
+.personalData .error{
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+
+
 .paymentOption {
     height: 40px;
     border-radius: 5px;
@@ -348,7 +355,7 @@ img.special-image {
 
 .paymentMethods {
     display: block;
-    margin: 10px;
+
     padding: 10px;
     text-align: center;
 }
@@ -358,6 +365,7 @@ img.special-image {
     display:inline-block;
     flex-direction: row;
     justify-content: space-evenly;
+    margin: 0 90px 50px 0;
 
 }
 .dataPayment{
@@ -376,5 +384,52 @@ img.special-image {
 .btn-success:hover{
     background-color: #3451ff;
     border-color: #3451ff;
+
+}
+.labelName-lastName {
+    margin: 0;
+}
+.personalData small {
+    visibility: hidden;
+}
+
+input{
+    color: black;
+}
+
+.personalData.error small {
+    visibility: visible;
+    color: red;
+}
+
+::placeholder {
+    color: #cccccc;
+}
+
+#nameId{
+    margin: 21px 0 7px 0;
+}
+
+#lastNmeId {
+    margin: 0 0 5px 0;
+
+ }
+#emailId{
+    margin: 0 0 5px 0;
+}
+
+
+.creditCard, .paypalForm{
+    display:none;
+}
+
+img.imgPaypal {
+    width: 200px;
+    height: 40px;
+}
+
+.summaryPrice2{
+    text-align: center;
+    margin: 0;
 
 }

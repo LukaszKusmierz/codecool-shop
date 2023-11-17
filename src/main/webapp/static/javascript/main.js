@@ -22,9 +22,13 @@ elementsWithIdRemove.forEach(element => {
     element.addEventListener("click", removeLineItem);
 });
 
+if (selectElementCategory) {
+    selectElementCategory.addEventListener("change", optionCategory);
+}
 
-selectElementCategory.addEventListener("change", optionCategory);
-selectElementSupplier.addEventListener("change", optionSupplier);
+if (selectElementCategory) {
+    selectElementSupplier.addEventListener("change", optionSupplier);
+}
 
 function fetchProductsByCategory(route) {
     try {
@@ -72,7 +76,7 @@ function showProductsByCategory(products) {
         cardProducts.classList.add('col', 'col-sm-12', 'col-md-6', 'col-lg-4');
         cardProducts.innerHTML = `
              <div class="card">
-                <img src="/static/img/product_${prod.id}.jpg">
+                <img src="/static/img/product_${prod.id}.jpg" alt="product">
                 <div class="card-header">
                     <h4 class="card-title">${prod.name}</h4>
                     <p class="card-text">${prod.description}</p>
@@ -139,14 +143,14 @@ function showProductsBySupplier(products) {
         cardProducts.innerHTML = `
 
              <div class="card">
-                <img src="/static/img/product_${prod.id}.jpg">
+                <img src="/static/img/product_${prod.id}.jpg" alt="productBySupplier">
                 <div class="card-header">
                     <h4 class="card-title">${prod.name}</h4>
                     <p class="card-text">${prod.description}</p>
                 </div>
                 <div class="card-body">
                     <div class="card-text">
-                        <p class="lead">${prod.defaultPrice}  ${prod.defaultCurrency}</p>
+                        <p class="lead">${prod.getDefaultPrice()}  ${prod.defaultCurrency}</p>
                     </div>
                     <div class="card-text">
                         <a data-product-id=${prod.id} class="btn btn-success" href="#">Add to cart</a>
@@ -177,35 +181,6 @@ function updateEventListeners() {
     });
 }
 
-// function fetchNumberOfItemInCart() {
-//     try {
-//         console.log("try to fetch: ")
-//         const toFetch = `http://localhost:8080/cart/items/numbers`
-//         console.log(" fetch:  " + toFetch)
-//         fetch(toFetch, {
-//             method: "PUT",
-//             headers: {
-//                 'Accept': 'application/json',
-//                 'Content-Type': 'application/json',
-//                 'number': 'number'
-//             },
-//             body: JSON.stringify({numberOfItemInCart})
-//         })
-//             .then((response) => {
-//                 const numberHeader = response.headers.get('number');
-//                 console.log("Number header value: " + numberHeader);
-//                 document.getElementById('numberDisplay').textContent = numberHeader
-//                 return response.json();
-//             })
-//             .then((data) => console.log(JSON.stringify(data)))
-//             .catch(error => {
-//                 console.log(error)
-//             })
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
-
 function fetchAddProductToCart(productId) {
     try {
         console.log("try to fetch: ")
@@ -219,14 +194,11 @@ function fetchAddProductToCart(productId) {
                 'Content-Type': 'application/json',
                 'Header': 'number'
             },
-
             body: JSON.stringify({productId: parseInt(productId)})
         })
             .then((response) => {
-                const numberHeader = response.headers.get('number');
-                document.querySelector('.amountItem-info').textContent = numberHeader
+                document.querySelector('.amountItem-info').textContent = response.headers.get('number')
                 console.log(response.json())
-                // return response.json();
             })
             .catch(error => {
                 console.log(error)
@@ -277,7 +249,7 @@ function fetchAddQuantityToCart(productId, operation) {
                 'Content-Type': 'application/json',
                 'Header': 'number'
             },
-            body: JSON.stringify({productId: parseInt(productId), operation: operation })
+            body: JSON.stringify({productId: parseInt(productId), operation: operation})
         })
             .then((response) => {
                 if (!response.ok) {
@@ -286,7 +258,7 @@ function fetchAddQuantityToCart(productId, operation) {
                 document.querySelector('.amountItem-info').textContent = response.headers.get('number');
             })
             .then(() => {
-                    window.location.reload()
+                window.location.reload()
             })
             .then((data) => console.log("data " + data))
             .catch(error => {
@@ -308,7 +280,7 @@ function addQuantityFunction(event) {
             subtotalValue(itemId, number)
         }
     })
-    fetchAddQuantityToCart(productId,"add");
+    fetchAddQuantityToCart(productId, "add");
 }
 
 function oddQuantityFunction(event) {
@@ -320,7 +292,7 @@ function oddQuantityFunction(event) {
         if (number.value > 0) {
             if (number.getAttribute('data-cartItem-id') === itemId) {
                 number.value = parseInt(number.value) - 1;
-                fetchAddQuantityToCart(productId,"odd");
+                fetchAddQuantityToCart(productId, "odd");
                 subtotalValue(itemId, number)
                 if (parseInt(number.value) === 0) {
                     fetchDeleteProductFromCart(`?productId=${productId}`)
@@ -343,7 +315,89 @@ function subtotalValue(itemId, actualQuantityNumber) {
     })
 }
 
+const submitCheckOutButton = document.getElementById(`buttonCheckOut`);
+const formData = document.getElementById(`formData`);
+const name = document.getElementById("name");
+const lastName = document.getElementById("lastName");
+const email = document.getElementById('email');
 
 
+if (submitCheckOutButton) {
+    submitCheckOutButton.addEventListener("click", function () {
+        validateFormDataName()
+        validateFormDataLastName();
+        validateFormDataEmail();
+    })
+}
 
+function validateFormDataName() {
+    name.addEventListener("input", function () {
+        const nameValue = name.value;
+        if (nameValue === '') {
+            const nameError = 'Should be at least 5 characters long.';
+            setError(name, nameError);
+        } else if (nameValue.length < 5) {
+            const nameError = 'Should be at least 5 characters long.';
+            setError(name, nameError);
+        } else if (nameValue.match(/.*[0-9].*/)) {
+            const nameError = 'Should not container a number';
+            setError(name, nameError);
+        } else {
+            setError(name, "")
+        }
+    })
+}
 
+function validateFormDataEmail() {
+    lastName.addEventListener("input", function () {
+        const lastNameValue = lastName.value
+        if (lastNameValue.length < 7) {
+            const lastNameError = 'Should be at least 7 characters long.';
+            setError(lastName, lastNameError);
+        } else if (lastNameValue.match(/.*[0-9].*/)) {
+            const lastNameError = 'Should not container a number';
+            setError(lastName, lastNameError);
+        } else {
+            setError(lastName, '');
+        }
+    })
+}
+
+function validateFormDataLastName() {
+    email.addEventListener("input", function () {
+        const emailValue = email.value
+        if (!/@/.test(emailValue)) {
+            const emailError = 'The @ is necessary .';
+            setError(email, emailError);
+        } else {
+            setError(email, '');
+        }
+    })
+}
+
+function setError(input, message) {
+    const formControl = input.parentElement;
+    const small = formControl.querySelector('small');
+    small.innerText = message;
+    formControl.className = 'personalData error';
+}
+
+const selectPayment = document.querySelector('.paymentOption');
+if (selectPayment) {
+    selectPayment.addEventListener("change", optionPayment);
+}
+
+function optionPayment(event) {
+    const creditCard = document.querySelector('.creditCard')
+    const paypalForm = document.querySelector('.paypalForm')
+    const selectedOption = selectPayment.options[selectPayment.selectedIndex];
+    const selectId = selectedOption.getAttribute('data-category-id');
+    event.preventDefault();
+    if (selectId === "1") {
+        paypalForm.style.display = 'block';
+        creditCard.style.display = 'none';
+    } else if (selectId === "2") {
+        paypalForm.style.display = 'none';
+        creditCard.style.display = 'block';
+    }
+}

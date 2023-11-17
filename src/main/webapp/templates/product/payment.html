@@ -3,7 +3,6 @@
 <head>
     <div th:replace="header.html :: header"></div>
 </head>
-
 <body class="bodyCart">
 <div th:replace="bodyTop.html :: bodyTop"></div>
 
@@ -11,57 +10,62 @@
     <img id="basket_id" class="special-image" src="/static/img/cart_bag_1.png"/></a>
 <span class="amountItem amountItem-info" th:text="${numberItems}"></span>
 
-
 <section id="contentCart" class="cart">
-
     <div class="cartName">Payment
         <span class="backMainPage">
         <a id="mainPage" href="http://localhost:8080/">
         <img class="continueShopping" src="/static/img/continue.png"/>
         </a> </span>
     </div>
-
+    <div class="summaryPrice2">
+        <label class="totalPrice">Total Price: </label>
+        <strong class="totalAmount" th:text="${totalPrice}">price currency</strong>
+        <span class="totalAmount">USD</span>
+    </div>
 
     <div class="dataPayment">
         <div class="paymentData">
             <div class="paymentMethods">
-            <label class="titleOf"> PAYMENT METHOD:</label><br>
-
-            <select class="paymentOption" name="paymentOption">
-                <option>--Please choose--</option>
-                <option> PayPal</option>
-                <option> Credit card</option>
-            </select>
+                <label class="titleOf"> PAYMENT METHOD:</label><br>
+                <select class="paymentOption" name="paymentOption">
+                    <option>--Please choose--</option>
+                    <option data-category-id="1"> PayPal</option>
+                    <option data-category-id="2"> Credit card</option>
+                </select>
             </div>
 
             <form class="creditCard">
+                <img class="imgPaypal" src="/static/img/creditCard.JPG"><br>
                 <label class="labelName" for="numberCard"> CARD NUMBER</label><br>
-                <input class="inputData" type="text" id="numberCard" name="numberCard" required><br>
+                <input class="inputData" type="text" id="numberCard" name="numberCard" placeholder="1234 5678 9012 3456"
+                       required><br>
                 <label class="labelName" for="nameCard">NAME ON CARD</label><br>
-                <input class="inputData" type="text" id="nameCard" name="nameCard" required><br>
+                <input class="inputData" type="text" id="nameCard" name="nameCard" placeholder="Ex. John Novak"
+                       required><br>
                 <label class="labelName" for="expireDate"> EXPIRY DATE</label><br>
-                <input class="inputData" type="text" id="expireDate" name="expireDate" required><br>
+                <input class="inputData" type="text" id="expireDate" name="expireDate" placeholder="01/23" required><br>
                 <label class="labelName" for="secureCode"> SECURE CODE</label><br>
-                <input class="inputData" type="text" id="secureCode" name="secureCode" required><br>
+                <input class="inputData" type="password" id="secureCode" name="secureCode" placeholder="***"
+                       required><br>
             </form>
 
             <form>
                 <div class="paypalForm">
+                    <img class="imgPaypal" src="/static/img/payPal.JPG"><br>
                     <label class="labelName" for="emailPaypal"> EMAIL</label><br>
-                    <input class="inputData"  type="text" id="emailPaypal" name="emailPaypal" required><br>
+                    <input class="inputData" type="text" id="emailPaypal" name="emailPaypal"
+                           placeholder="tomnovak@gmail.com" required><br>
                     <label class="labelName" for="passwordPaypal"> PASSWORD</label><br>
-                    <input class="inputData" type="password" id="passwordPaypal" name="passwordPaypal" required><br>
+                    <input class="inputData" type="password" id="passwordPaypal" name="passwordPaypal" minlength="6"
+                           placeholder="password" required><br>
                 </div>
             </form>
         </div>
     </div>
-        <div class="nextStep2">
-            <button class="buttonNextStep"> Next Step</button>
-        </div>
-
+    <div class="nextStep2">
+        <button type="submit" class="buttonNextStep"> Next Step</button>
+    </div>
 </section>
-
-
 <div th:replace="footer.html :: footer"></div>
 </body>
 </html>

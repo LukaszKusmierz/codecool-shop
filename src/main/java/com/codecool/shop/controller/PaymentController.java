@@ -15,6 +15,7 @@ import org.thymeleaf.web.IWebExchange;
 import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,15 +30,20 @@ public class PaymentController extends HttpServlet {
                 .buildExchange(req, resp);
         WebContext context = new WebContext(webExchange);
 
-//        int numberItems = 0;
-//        for (Product product : cartDao.getAll()) {
-//            numberItems += product.getQuantityOfSell();
-//        }
+        int numberItems = 0;
+        for (Product product : cartDao.getAll()) {
+            numberItems += product.getQuantityOfSell();
+        }
 
-//        context.setVariable("numberItems", numberItems);
-//        context.setVariable("totalPrice",cartDao.getTotalPrice(cartDao.getAll()));
-//        context.setVariable("ctxPath", req.getContextPath());
-//        context.setVariable("cartItems", cartDao.getAll());
-//        engine.process("product/payment.html", context, resp.getWriter());
+        double totalPrice = 0;
+        for (Product product : cartDao.getAll()) {
+            numberItems += product.getQuantityOfSell();
+            totalPrice += product.subTotal();
+        }
+
+        context.setVariable("numberItems", numberItems);
+        context.setVariable("totalPrice", BigDecimal.valueOf(totalPrice).setScale(2, BigDecimal.ROUND_CEILING));
+        context.setVariable("ctxPath", req.getContextPath());
+        engine.process("product/payment.html", context, resp.getWriter());
     }
 }

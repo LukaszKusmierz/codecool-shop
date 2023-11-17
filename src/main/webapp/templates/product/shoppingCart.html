@@ -9,18 +9,15 @@
 
 <a id="menu_basket" class="basket" href="http://localhost:8080/cart">
     <img id="basket_id" class="special-image" src="/static/img/cart_bag_1.png"/></a>
-<span class="amountItem amountItem-info" th:text="${numberItems}" ></span>
-
+<span class="amountItem amountItem-info" th:text="${numberItems}"></span>
 
 <section id="contentCart" class="cart">
-
     <div class="cartName">Shopping Cart
         <span class="backMainPage">
         <a id="mainPage" href="http://localhost:8080/">
         <img class="continueShopping" src="/static/img/continue.png"/>
         </a> </span>
     </div>
-
 
     <div class="cartItems">
         <div class="cartBlockLabels">
@@ -43,22 +40,27 @@
                     <h5 class="itemName" th:text="${item.name}">Name</h5>
                 </div>
                 <div class="cartItemValue">
-                    <span class="itemPrice" th:data-cartItem-id="${item.id}"  th:text="${item.getDefaultPrice()}"> Price</span>
+                    <span class="itemPrice" th:data-cartItem-id="${item.id}"
+                          th:text="${item.getDefaultPrice()}"> Price</span>
                 </div>
                 <div class="cartItemValue">
-                    <span class="itemPriceSum" th:data-cartItem-id="${item.id}" th:text="${item.subTotal()}">Price2</span>
+                    <span class="itemPriceSum" th:data-cartItem-id="${item.id}"
+                          th:text="${item.subTotal1()}">Price2</span>
                 </div>
                 <div class="cartItemValueInput">
-                    <span id="odd" class="oddQuantity" th:data-product-id="${item.productId}"  th:data-cartItem-id="${item.id}">-</span>
-                    <input class="numberOfQuantity" th:data-cartItem-id="${item.id}" th:value="${item.getQuantityOfSell()}">
-                    <span id="add" class="addQuantity" th:data-product-id="${item.productId}"  th:data-cartItem-id="${item.id}">+</span>
+                    <span id="odd" class="oddQuantity" th:data-product-id="${item.productId}"
+                          th:data-cartItem-id="${item.id}">-</span>
+                    <input class="numberOfQuantity" th:data-cartItem-id="${item.id}"
+                           th:value="${item.getQuantityOfSell()}">
+                    <span id="add" class="addQuantity" th:data-product-id="${item.productId}"
+                          th:data-cartItem-id="${item.id}">+</span>
                     <div class="cartItemRemove"></div>
                 </div>
                 <div id="idRemove" class="cartItemValue">
-                    <span class="removeIcon" th:data-product-id="${item.productId}" th:data-cartItem-id="${item.id}">x</span>
+                    <span class="removeIcon" th:data-product-id="${item.productId}"
+                          th:data-cartItem-id="${item.id}">x</span>
                 </div>
             </div>
-
         </div>
     </div>
     <div class="summaryPrice">
@@ -66,16 +68,12 @@
         <strong class="totalAmount" th:text="${totalPrice}">price currency</strong>
         <span class="totalAmount">USD</span>
     </div>
-
     <div class="nextStep">
         <a class="checkOut" href="http://localhost:8080/checkoutCart">
-       <button class="buttonNextStep"> Next Step</button>
+            <button type="submit" class="buttonNextStep"> Next Step</button>
         </a>
     </div>
-
 </section>
-
-
 <div th:replace="footer.html :: footer"></div>
 </body>
 </html>
