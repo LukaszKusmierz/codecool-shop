@@ -10,16 +10,14 @@ public class Product extends BaseModel {
     public Currency defaultCurrency;
     private ProductCategory productCategory;
     private Supplier supplier;
-    private int quantityOfSell;
 
 
-    public Product(int productId, String name, BigDecimal defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier, int quantityOfSell) {
+    public Product(int productId, String name, BigDecimal defaultPrice, String currencyString, String description, ProductCategory productCategory, Supplier supplier) {
         super(name, description);
         this.productId = productId;
         this.setPrice(defaultPrice, currencyString);
         this.setSupplier(supplier);
         this.setProductCategory(productCategory);
-        this.quantityOfSell = quantityOfSell;
     }
 
     public int getProductId() {
@@ -40,26 +38,6 @@ public class Product extends BaseModel {
 
     public Currency getDefaultCurrency() {
         return defaultCurrency;
-    }
-
-    public int getQuantityOfSell() {
-        return quantityOfSell;
-    }
-
-    public double subTotal() {
-        BigDecimal productPrice = defaultPrice.multiply(BigDecimal.valueOf(quantityOfSell));
-        productPrice = productPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
-        return productPrice.doubleValue();
-    }
-    public BigDecimal subTotal1() {
-        BigDecimal productPrice = defaultPrice.multiply(BigDecimal.valueOf(quantityOfSell));
-        productPrice = productPrice.setScale(2, BigDecimal.ROUND_HALF_UP);
-        return productPrice;
-    }
-
-
-    public void setQuantityOfSell(int quantityOfSell) {
-        this.quantityOfSell = quantityOfSell;
     }
 
     public void setDefaultCurrency(Currency defaultCurrency) {
@@ -102,13 +80,11 @@ public class Product extends BaseModel {
                         "defaultCurrency: %4$s, " +
                         "productCategory: %5$s, " +
                         "supplier: %6$s, " +
-                        "quantityOfSell: %7$d",
                 this.productId,
                 this.name,
                 this.defaultPrice,
                 this.defaultCurrency.toString(),
                 this.productCategory.getName(),
-                this.supplier.getName(),
-                this.quantityOfSell);
+                this.supplier.getName());
     }
 }

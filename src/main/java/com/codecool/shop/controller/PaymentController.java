@@ -3,7 +3,7 @@ package com.codecool.shop.controller;
 import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.dao.implementation.CartDaoMem;
-import com.codecool.shop.model.Product;
+import com.codecool.shop.model.LineItem;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,8 +16,6 @@ import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
 
 @WebServlet(urlPatterns = {"/payment"})
 public class PaymentController extends HttpServlet {
@@ -30,17 +28,11 @@ public class PaymentController extends HttpServlet {
                 .buildExchange(req, resp);
         WebContext context = new WebContext(webExchange);
 
-        int numberItems = 0;
-        for (Product product : cartDao.getAll()) {
-            numberItems += product.getQuantityOfSell();
-        }
-
         double totalPrice = 0;
-        for (Product product : cartDao.getAll()) {
-            numberItems += product.getQuantityOfSell();
-            totalPrice += product.subTotal();
+        for (LineItem item : cartDao.getAll()) {
+            totalPrice += item.subTotal();
         }
-
+        int numberItems = cartDao.getAll().stream().mapToInt(lineItem1-> lineItem1.getQuantityOfSell()).sum();
         context.setVariable("numberItems", numberItems);
         context.setVariable("totalPrice", BigDecimal.valueOf(totalPrice).setScale(2, BigDecimal.ROUND_CEILING));
         context.setVariable("ctxPath", req.getContextPath());

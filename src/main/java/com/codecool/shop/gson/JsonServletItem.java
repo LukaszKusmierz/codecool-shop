@@ -5,6 +5,7 @@ import com.codecool.shop.dao.ProductDao;
 import com.codecool.shop.dao.implementation.CartDaoMem;
 import com.codecool.shop.dao.implementation.ProductDaoMem;
 import com.codecool.shop.model.AddToCartRequest;
+import com.codecool.shop.model.LineItem;
 import com.codecool.shop.model.Product;
 import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
@@ -36,19 +37,20 @@ public class JsonServletItem extends HttpServlet {
         int productId = request.getProductId();
         Product product = productDataStore.find(productId);
 
+        LineItem lineItem = new LineItem(product.id, product.getName(), product, product.getDefaultPrice());
+
         if("add".equals(request.getOperation())){
-            if (cartDao.getAll().contains(product)) {
-                product.setQuantityOfSell(product.getQuantityOfSell() + 1);
+            if (cartDao.getAll().contains(cartDao.find(lineItem.getId()))) {
+                LineItem existingLineItem = cartDao.find(lineItem.getId());
+                existingLineItem.setQuantityOfSell(existingLineItem.getQuantityOfSell() + 1);
             }
         } else if ("odd".equals(request.getOperation())) {
-            if (cartDao.getAll().contains(product)) {
-                product.setQuantityOfSell(product.getQuantityOfSell() - 1);
+            if (cartDao.getAll().contains(cartDao.find(lineItem.getId()))) {
+                LineItem existingLineItem = cartDao.find(lineItem.getId());
+                existingLineItem.setQuantityOfSell(existingLineItem.getQuantityOfSell() - 1);
             }
         }
-        int numberItems=0;
-        for (Product item : cartDao.getAll()) {
-            numberItems += item.getQuantityOfSell();
-        }
+        int numberItems = cartDao.getAll().stream().mapToInt(lineItem1-> lineItem1.getQuantityOfSell()).sum();
 
         GsonClass gsonClass = new GsonClass();
         gsonClass.convertToGson();

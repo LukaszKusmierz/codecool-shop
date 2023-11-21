@@ -31,34 +31,34 @@
             <div class="cartItemLabel">Remove</div>
         </div>
         <div class="rowItem" th:each="item,iterStat : ${cartItems}">
-            <div class="cartBlockItem" th:data-cartItem-id="${item.id}">
+            <div class="cartBlockItem" th:data-cartItem-id="${item.getId()}">
                 <div class="cartItemValuePhoto">
                     <img class="imageItemInCart" src="http://placehold.it/400x250/000/fff"
-                         th:src="@{${'/static/img/product_'+item.productId+'.jpg'}}">
+                         th:src="@{${'/static/img/product_'+item.getId()+'.jpg'}}">
                 </div>
                 <div class="cartItemValue">
-                    <h5 class="itemName" th:text="${item.name}">Name</h5>
+                    <h5 class="itemName" th:text="${item.getName()}">Name</h5>
                 </div>
                 <div class="cartItemValue">
-                    <span class="itemPrice" th:data-cartItem-id="${item.id}"
-                          th:text="${item.getDefaultPrice()}"> Price</span>
+                    <span class="itemPrice" th:data-cartItem-id="${item.getId()}"
+                          th:text="${item.getUnitPriceProduct()}"> Price</span>
                 </div>
-                <div class="cartItemValue">
-                    <span class="itemPriceSum" th:data-cartItem-id="${item.id}"
+                <div class="cartItemValueSub">
+                    <span class="itemPriceSum" th:data-cartItem-id="${item.getId()}"
                           th:text="${item.subTotal1()}">Price2</span>
                 </div>
                 <div class="cartItemValueInput">
-                    <span id="odd" class="oddQuantity" th:data-product-id="${item.productId}"
-                          th:data-cartItem-id="${item.id}">-</span>
-                    <input class="numberOfQuantity" th:data-cartItem-id="${item.id}"
+                    <span id="odd" class="oddQuantity" th:data-product-id="${item.getId()}"
+                          th:data-cartItem-id="${item.getId()}">-</span>
+                    <input class="numberOfQuantity" th:data-cartItem-id="${item.getId()}"
                            th:value="${item.getQuantityOfSell()}">
-                    <span id="add" class="addQuantity" th:data-product-id="${item.productId}"
-                          th:data-cartItem-id="${item.id}">+</span>
+                    <span id="add" class="addQuantity" th:data-product-id="${item.getId()}"
+                          th:data-cartItem-id="${item.getId()}">+</span>
                     <div class="cartItemRemove"></div>
                 </div>
                 <div id="idRemove" class="cartItemValue">
-                    <span class="removeIcon" th:data-product-id="${item.productId}"
-                          th:data-cartItem-id="${item.id}">x</span>
+                    <span class="removeIcon" th:data-product-id="${item.getId()}"
+                          th:data-cartItem-id="${item.getId()}">x</span>
                 </div>
             </div>
         </div>

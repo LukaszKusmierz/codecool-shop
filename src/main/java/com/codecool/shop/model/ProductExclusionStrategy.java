@@ -10,8 +10,7 @@ public class ProductExclusionStrategy implements ExclusionStrategy {
     public boolean shouldSkipField(FieldAttributes f) {
         return(f.getDeclaringClass() == ProductCategory.class &&  f.getName().equals("products")) ||
                 (f.getDeclaringClass() == Supplier.class &&  f.getName().equals("products"))
-                || (f.getDeclaringClass() == GsonClass.class &&  f.getName().equals("products"))
-                || (f.getDeclaringClass() == Cart.class &&  f.getName().equals("productsInCart"));
+                || (f.getDeclaringClass() == GsonClass.class &&  f.getName().equals("products"));
     }
 
     @Override

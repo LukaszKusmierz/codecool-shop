@@ -29,12 +29,13 @@
                 <label class="titleOf"> PAYMENT METHOD:</label><br>
                 <select class="paymentOption" name="paymentOption">
                     <option>--Please choose--</option>
-                    <option data-category-id="1"> PayPal</option>
-                    <option data-category-id="2"> Credit card</option>
+                    <option id="pPal" data-category-id="1"> PayPal</option>
+                    <option id="creditC" data-category-id="2"> Credit card</option>
                 </select>
             </div>
 
             <form class="creditCard">
+                <div>
                 <img class="imgPaypal" src="/static/img/creditCard.JPG"><br>
                 <label class="labelName" for="numberCard"> CARD NUMBER</label><br>
                 <input class="inputData" type="text" id="numberCard" name="numberCard" placeholder="1234 5678 9012 3456"
@@ -47,9 +48,13 @@
                 <label class="labelName" for="secureCode"> SECURE CODE</label><br>
                 <input class="inputData" type="password" id="secureCode" name="secureCode" placeholder="***"
                        required><br>
+                </div>
+                <div class="nextStep2">
+                    <button id="buttonCredit" type="submit" class="buttonNextStep"> Next Step</button>
+                </div>
             </form>
 
-            <form>
+            <form id="formPaypal">
                 <div class="paypalForm">
                     <img class="imgPaypal" src="/static/img/payPal.JPG"><br>
                     <label class="labelName" for="emailPaypal"> EMAIL</label><br>
@@ -59,12 +64,13 @@
                     <input class="inputData" type="password" id="passwordPaypal" name="passwordPaypal" minlength="6"
                            placeholder="password" required><br>
                 </div>
+                <div class="nextStep2">
+                    <button type="submit" id="buttonPayPal" class="buttonNextStep"> Next Step</button>
+                </div>
             </form>
         </div>
     </div>
-    <div class="nextStep2">
-        <button type="submit" class="buttonNextStep"> Next Step</button>
-    </div>
+
 </section>
 <div th:replace="footer.html :: footer"></div>
 </body>

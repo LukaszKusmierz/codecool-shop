@@ -3,7 +3,6 @@ package com.codecool.shop.controller;
 import com.codecool.shop.config.TemplateEngineUtil;
 import com.codecool.shop.dao.CartDao;
 import com.codecool.shop.dao.implementation.CartDaoMem;
-import com.codecool.shop.model.Product;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,8 +14,6 @@ import org.thymeleaf.web.IWebExchange;
 import org.thymeleaf.web.servlet.JakartaServletWebApplication;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
 @WebServlet(urlPatterns = {"/checkoutCart"})
 public class CheckOutController extends HttpServlet {
@@ -28,15 +25,12 @@ public class CheckOutController extends HttpServlet {
         IWebExchange webExchange = JakartaServletWebApplication.buildApplication(getServletContext())
                 .buildExchange(req, resp);
         WebContext context = new WebContext(webExchange);
-        int numberItems = 0;
-        for (Product product : cartDao.getAll()) {
-            numberItems += product.getQuantityOfSell();
-        }
 
+        int numberItems = cartDao.getAll().stream().mapToInt(lineItem1-> lineItem1.getQuantityOfSell()).sum();
         context.setVariable("numberItems", numberItems);
-        context.setVariable("totalPrice",cartDao.getTotalPrice(cartDao.getAll()));
         context.setVariable("ctxPath", req.getContextPath());
-        context.setVariable("cartItems", cartDao.getAll());
         engine.process("product/checkoutCart.html", context, resp.getWriter());
     }
+
+
 }

@@ -150,7 +150,7 @@ function showProductsBySupplier(products) {
                 </div>
                 <div class="card-body">
                     <div class="card-text">
-                        <p class="lead">${prod.getDefaultPrice()}  ${prod.defaultCurrency}</p>
+                        <p class="lead">${prod.defaultPrice}  ${prod.defaultCurrency}</p>
                     </div>
                     <div class="card-text">
                         <a data-product-id=${prod.id} class="btn btn-success" href="#">Add to cart</a>
@@ -273,6 +273,8 @@ function addQuantityFunction(event) {
     const button = event.target;
     const itemId = button.getAttribute('data-cartItem-id');
     const productId = button.getAttribute('data-product-id');
+
+    console.log( "addQuantityFunction  "+productId)
     event.preventDefault();
     actualNumbers.forEach(number => {
         if (number.getAttribute('data-cartItem-id') === itemId) {
@@ -289,15 +291,15 @@ function oddQuantityFunction(event) {
     const productId = button.getAttribute('data-product-id');
     event.preventDefault();
     actualNumbers.forEach(number => {
-        if (number.value > 0) {
+        if (parseInt(number.value) > 0) {
             if (number.getAttribute('data-cartItem-id') === itemId) {
                 number.value = parseInt(number.value) - 1;
                 fetchAddQuantityToCart(productId, "odd");
                 subtotalValue(itemId, number)
-                if (parseInt(number.value) === 0) {
-                    fetchDeleteProductFromCart(`?productId=${productId}`)
-                }
             }
+        }
+        if (parseInt(number.value) === 0) {
+            fetchDeleteProductFromCart(`?productId=${productId}`)
         }
     })
 }
@@ -315,29 +317,128 @@ function subtotalValue(itemId, actualQuantityNumber) {
     })
 }
 
-const submitCheckOutButton = document.getElementById(`buttonCheckOut`);
-const formData = document.getElementById(`formData`);
+
+const formPersonalData = document.getElementById(`formData`);
 const name = document.getElementById("name");
 const lastName = document.getElementById("lastName");
 const email = document.getElementById('email');
 
 
-if (submitCheckOutButton) {
-    submitCheckOutButton.addEventListener("click", function () {
-        validateFormDataName()
-        validateFormDataLastName();
-        validateFormDataEmail();
+if (formPersonalData) {
+    formPersonalData.addEventListener("submit", async event => {
+        event.preventDefault();
+
+        const formDataNew = new FormData(formPersonalData);
+        const data = {};
+        formDataNew.forEach((value, key) => {
+            data[key] = value;
+        });
+        const payload = JSON.stringify(data);
+        console.log(payload);
+
+        try {
+            const res = await fetch(
+                `http://localhost:8080/checkoutCart/personalData`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: payload
+                })
+                window.location.href = 'http://localhost:8080/payment';
+        }catch(err)
+    {
+        console.log(err.message);
+    }
+
+})
+}
+
+const optionPayPal= document.getElementById(`pPal`);
+const formPaymentDataPayPal = document.getElementById(`formPaypal`);
+
+if (formPaymentDataPayPal && optionPayPal) {
+    formPaymentDataPayPal.addEventListener("submit", async event => {
+        event.preventDefault();
+
+        const formDataNew = new FormData(formPaymentDataPayPal);
+        const data = {};
+        formDataNew.forEach((value, key) => {
+            data[key] = value;
+        });
+        const payload = JSON.stringify(data);
+        console.log(payload);
+
+        try {
+            const res = await fetch(
+                `http://localhost:8080/payment/paymentData`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: payload
+                })
+            window.location.href = 'http://localhost:8080/';
+        }catch(err)
+        {
+            console.log(err.message);
+        }
+
     })
+}
+
+
+const optionPCreditCard= document.getElementById(`creditC`);
+const formPaymentDataCreditCard = document.querySelector(`.creditCard`);
+
+if (formPaymentDataCreditCard && optionPCreditCard) {
+    formPaymentDataCreditCard.addEventListener("submit", async event => {
+        event.preventDefault();
+
+        const formDataNew = new FormData(formPaymentDataCreditCard);
+        const data = {};
+        formDataNew.forEach((value, key) => {
+            data[key] = value;
+        });
+        const payload = JSON.stringify(data);
+        console.log(payload);
+
+        try {
+            const res = await fetch(
+                `http://localhost:8080/payment/paymentData`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: payload
+                })
+
+            window.location.href = 'http://localhost:8080/';
+        }catch(err)
+        {
+            console.log(err.message);
+        }
+    })
+}
+
+
+if (name) {
+    validateFormDataName();
+} else if (lastName) {
+    validateFormDataLastName();
+} else if (email) {
+    validateFormDataEmail();
 }
 
 function validateFormDataName() {
     name.addEventListener("input", function () {
         const nameValue = name.value;
         if (nameValue === '') {
-            const nameError = 'Should be at least 5 characters long.';
+            const nameError = 'Should not be empty.';
             setError(name, nameError);
-        } else if (nameValue.length < 5) {
-            const nameError = 'Should be at least 5 characters long.';
             setError(name, nameError);
         } else if (nameValue.match(/.*[0-9].*/)) {
             const nameError = 'Should not container a number';
@@ -348,11 +449,11 @@ function validateFormDataName() {
     })
 }
 
-function validateFormDataEmail() {
+function validateFormDataLastName() {
     lastName.addEventListener("input", function () {
         const lastNameValue = lastName.value
-        if (lastNameValue.length < 7) {
-            const lastNameError = 'Should be at least 7 characters long.';
+        if (lastNameValue === '') {
+            const lastNameError = 'Should not be empty.';
             setError(lastName, lastNameError);
         } else if (lastNameValue.match(/.*[0-9].*/)) {
             const lastNameError = 'Should not container a number';
@@ -363,7 +464,7 @@ function validateFormDataEmail() {
     })
 }
 
-function validateFormDataLastName() {
+function validateFormDataEmail() {
     email.addEventListener("input", function () {
         const emailValue = email.value
         if (!/@/.test(emailValue)) {
@@ -392,12 +493,18 @@ function optionPayment(event) {
     const paypalForm = document.querySelector('.paypalForm')
     const selectedOption = selectPayment.options[selectPayment.selectedIndex];
     const selectId = selectedOption.getAttribute('data-category-id');
+    const buttonCreditCard = document.getElementById(`buttonCredit`);
+    const buttonPayP = document.getElementById(`buttonPayPal`);
     event.preventDefault();
     if (selectId === "1") {
         paypalForm.style.display = 'block';
         creditCard.style.display = 'none';
+        buttonPayP.style.display = 'block';
+        buttonCreditCard.style.display = 'none';
     } else if (selectId === "2") {
         paypalForm.style.display = 'none';
         creditCard.style.display = 'block';
+        buttonCreditCard.style.display = 'block';
+        buttonPayP.style.display = 'none';
     }
 }

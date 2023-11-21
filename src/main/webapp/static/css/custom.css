@@ -64,24 +64,6 @@ img {
     width: 220px;
 }
 
-#category, #supplier {
-    text-align: left;
-    padding: 2px;
-}
-
-#supplier {
-    margin: 0 10px 10px 16px;
-}
-
-#category {
-    margin: 0 10px 10px 10px;
-}
-
-#categoryLabel, #supplierLabel {
-    text-align: left;
-    padding: 2px;
-    margin: 10px 10px 10px 20px;
-}
 
 img.special-image {
     height: 70px;
@@ -217,6 +199,12 @@ img.special-image {
     width: 200px;
 }
 
+.cartItemValueSub{
+    margin: 5px 0 5px 0;
+    display: inline-flex;
+    width: 200px;
+}
+
 .cartItemValueInput {
     font-size: 1.2rem;
 
@@ -271,6 +259,20 @@ img.special-image {
     border-radius: 10px;
     border-color: #3451ff;
 
+
+}
+
+#buttonPayPal{
+    display: none;
+    text-align: center;
+    margin: 0 0 20px 80px;
+}
+
+#buttonCredit{
+    text-align: center;
+    position: absolute;
+    margin: 120px 0 0 30px;
+
 }
 
 .nextStep {
@@ -278,13 +280,19 @@ img.special-image {
     text-align: center;
 
 }
-
-.nextStep1, .nextStep2 {
+.nextStep1 {
     margin: 0 90px 50px 0;
     text-align: center;
 
+
 }
 
+.nextStep2 {
+    margin: 0 90px 50px 0;
+    text-align: center;
+
+
+}
 
 
 .addQuantity:hover {
@@ -328,7 +336,7 @@ img.special-image {
     margin: 25px 0 5px 0;
 }
 
-.inputData{
+.inputData {
     text-align: center;
     width: auto;
 }
@@ -339,12 +347,11 @@ img.special-image {
     border-radius: 10px;
 }
 
-.personalData .error{
+.personalData .error {
     border: none;
     margin: 0;
     padding: 0;
 }
-
 
 
 .paymentOption {
@@ -362,38 +369,41 @@ img.special-image {
 
 .paymentData {
     text-align: center;
-    display:inline-block;
+    display: inline-block;
     flex-direction: row;
     justify-content: space-evenly;
     margin: 0 90px 50px 0;
 
 }
-.dataPayment{
+
+.dataPayment {
     text-align: center;
 }
 
-.cardFooter{
+.cardFooter {
     text-align: center;
 }
 
-.btn-success{
+.btn-success {
     background-color: #3451ff;
     border-color: #3451ff;
 }
 
-.btn-success:hover{
+.btn-success:hover {
     background-color: #3451ff;
     border-color: #3451ff;
 
 }
+
 .labelName-lastName {
     margin: 0;
 }
+
 .personalData small {
     visibility: hidden;
 }
 
-input{
+input {
     color: black;
 }
 
@@ -406,21 +416,22 @@ input{
     color: #cccccc;
 }
 
-#nameId{
+#nameId {
     margin: 21px 0 7px 0;
 }
 
 #lastNmeId {
     margin: 0 0 5px 0;
 
- }
-#emailId{
+}
+
+#emailId {
     margin: 0 0 5px 0;
 }
 
 
-.creditCard, .paypalForm{
-    display:none;
+.creditCard, .paypalForm {
+    display: none;
 }
 
 img.imgPaypal {
@@ -428,8 +439,50 @@ img.imgPaypal {
     height: 40px;
 }
 
-.summaryPrice2{
+.summaryPrice2 {
     text-align: center;
     margin: 0;
 
+}
+
+.card {
+    border: 1px solid #3451ff;
+}
+
+div.divCategory, div.divSupplier {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 20px;
+    font-weight: bold;
+
+}
+
+select#category, select#supplier {
+    font-weight: bold;
+    text-align: center;
+}
+
+div#categoryName.card {
+    text-align: center;
+    font-size: 25px;
+    margin-top: 50px;
+
+}
+
+.jumbotron {
+    font-size: 3.3rem;
+    font-weight: bold;
+    font-family: "Arial Black";
+    letter-spacing: 5px;
+}
+
+.col-lg-4 {
+    margin: 10px 0;
+
+}
+
+.footer {
+    margin-top: 80px;
+    padding: 20px;
+    background-color: #e9ecef;
 }

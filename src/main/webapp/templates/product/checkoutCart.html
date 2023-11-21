@@ -20,21 +20,21 @@
         </a> </span>
     </div>
 
-    <form class="formData" id="formData">
+    <form class="formData" id="formData" >
         <div class="dataUser">
             <div class="personalData">
                 <label class="titleOf"> PERSONAL INFORMATION</label><br>
                 <div class="divError">
                     <label class="labelName" id="nameId" for="name"> NAME</label><br>
                     <input class="inputData" type="text" id="name" name="name" placeholder="Tom"
-                           title="Name must be min. 5 characters" required><br>
+                            required><br>
                     <small>Error message</small><br>
                 </div>
                 <div class="divError">
                     <label class="labelName" id="lastNmeId" for="lastName">LAST NAME</label><br>
                     <input class="inputData" type="text" id="lastName"
-                           name="lastName" minlength="7" placeholder="Novak"
-                           title="LastName must be min. 7 characters" required><br>
+                           name="lastName"  placeholder="Novak"
+                            required><br>
                     <small>Error message</small><br>
                 </div>
 
@@ -81,14 +81,14 @@
         </div>
 
         <div class="nextStep1">
-            <a class="checkOut" href="http://localhost:8080/payment">
-                <button id="buttonCheckOut" class="buttonNextStep">Next Step</button>
-            </a>
+
+                <button id="buttonCheckOut" type="submit" class="buttonNextStep">Next Step</button>
+
         </div>
     </form>
 
 </section>
-
+<br><br><br><br><br><br><br><br><br>
 <div th:replace="footer.html :: footer"></div>
 </body>
 </html>
